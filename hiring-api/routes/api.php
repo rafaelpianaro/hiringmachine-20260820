@@ -19,8 +19,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Public routes - Authentication
-Route::prefix('hm')->group(function () {
+$publicRoutes = function () {
     // Authentication routes
     Route::prefix('auth')->group(function () {
         Route::post('/login', [AuthController::class, 'login']);
@@ -47,10 +46,13 @@ Route::prefix('hm')->group(function () {
             'version' => '1.0.0',
         ]);
     });
-});
+};
 
-// Protected routes - Require JWT Authentication
-Route::prefix('v1')->middleware('auth:api')->group(function () {
+// Public routes - Authentication
+Route::prefix('hm')->group($publicRoutes);
+Route::prefix('v1')->group($publicRoutes);
+
+$protectedRoutes = function () {
     // User profile routes
     Route::prefix('auth')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout']);
@@ -98,4 +100,8 @@ Route::prefix('v1')->middleware('auth:api')->group(function () {
         Route::put('/{comment}', [CommentController::class, 'update']);
         Route::delete('/{comment}', [CommentController::class, 'destroy']);
     });
-});
+};
+
+// Protected routes - Require JWT Authentication
+Route::prefix('hm')->middleware('auth:api')->group($protectedRoutes);
+Route::prefix('v1')->middleware('auth:api')->group($protectedRoutes);

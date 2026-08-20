@@ -34,18 +34,32 @@ class RegisterTest extends TestCase
             'email' => $response->json('data.user.email'),
         ]);
     }
-    public function test_user_can_register_with_role()
+    public function test_user_can_register_with_user_role()
     {
         $response = $this->postJson('/api/v1/auth/register', [
             'name' => $this->faker->name,
             'email' => $this->faker->unique()->safeEmail,
             'password' => 'password123',
             'password_confirmation' => 'password123',
-            'role' => 'recruiter',
+            'role' => 'user',
         ]);
 
         $response->assertStatus(201);
-        $this->assertEquals('recruiter', $response->json('data.user.role'));
+        $this->assertEquals('user', $response->json('data.user.role'));
+    }
+
+    public function test_registration_rejects_admin_role()
+    {
+        $response = $this->postJson('/api/v1/auth/register', [
+            'name' => $this->faker->name,
+            'email' => $this->faker->unique()->safeEmail,
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
+            'role' => 'admin',
+        ]);
+
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors(['role']);
     }
     public function test_registration_requires_name()
     {
@@ -107,7 +121,7 @@ class RegisterTest extends TestCase
         $response->assertStatus(422)
             ->assertJsonValidationErrors(['password']);
     }
-    public function test_default_role_is_candidate()
+    public function test_default_role_is_user()
     {
         $response = $this->postJson('/api/v1/auth/register', [
             'name' => $this->faker->name,
@@ -117,6 +131,6 @@ class RegisterTest extends TestCase
         ]);
 
         $response->assertStatus(201);
-        $this->assertEquals('candidate', $response->json('data.user.role'));
+        $this->assertEquals('user', $response->json('data.user.role'));
     }
 }

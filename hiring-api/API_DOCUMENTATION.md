@@ -39,7 +39,7 @@ Login with email and password.
             "id": 1,
             "name": "John Doe",
             "email": "user@example.com",
-            "role": "candidate"
+            "role": "user"
         }
     }
 }
@@ -48,6 +48,8 @@ Login with email and password.
 ### POST /auth/register
 Register a new user.
 
+**Note:** The registration endpoint always creates users with the role `user`. The `role` field is not accepted for creating admin users.
+
 **Request:**
 ```json
 {
@@ -55,7 +57,6 @@ Register a new user.
     "email": "john@example.com",
     "password": "password123",
     "password_confirmation": "password123",
-    "role": "candidate",
     "phone": "+55 11 99999-9999",
     "company": "Tech Company",
     "position": "Developer"
@@ -75,7 +76,7 @@ Register a new user.
             "id": 6,
             "name": "John Doe",
             "email": "john@example.com",
-            "role": "candidate"
+            "role": "user"
         }
     }
 }

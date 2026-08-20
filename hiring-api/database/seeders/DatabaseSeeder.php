@@ -13,8 +13,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Admin user (fixo)
-        User::create([
+        $this->seedUsers();
+
+        // Seed recipes, jobs and applications
+        $this->call(RecipeSeeder::class);
+        // $this->call(JobSeeder::class);
+        // $this->call(ApplicationSeeder::class);
+    }
+
+    private function seedUsers(): void
+    {
+        $this->createUser([
             'name' => 'Rafael Pianaro',
             'email' => 'rafaelpianaro@mail.com',
             'password' => Hash::make('password'),
@@ -27,7 +36,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Chefs / autores de receitas (role: recruiter)
-        User::create([
+        $this->createUser([
             'name' => 'Maria Clara',
             'email' => 'maria.clara@culinaria.com',
             'password' => Hash::make('password'),
@@ -39,7 +48,7 @@ class DatabaseSeeder extends Seeder
             'is_active' => true,
         ]);
 
-        User::create([
+        $this->createUser([
             'name' => 'João Pedro',
             'email' => 'joao.pedro@culinaria.com',
             'password' => Hash::make('password'),
@@ -51,43 +60,46 @@ class DatabaseSeeder extends Seeder
             'is_active' => true,
         ]);
 
-        // Usuários comuns (role: candidate)
-        User::create([
+        // Usuários comuns (role: user)
+        $this->createUser([
             'name' => 'Ana Souza',
             'email' => 'ana.souza@email.com',
             'password' => Hash::make('password'),
-            'role' => 'candidate',
+            'role' => 'user',
             'phone' => '+55 11 99999-3333',
             'position' => 'Food Blogger',
             'email_verified_at' => now(),
             'is_active' => true,
         ]);
 
-        User::create([
+        $this->createUser([
             'name' => 'Carlos Lima',
             'email' => 'carlos.lima@email.com',
             'password' => Hash::make('password'),
-            'role' => 'candidate',
+            'role' => 'user',
             'phone' => '+55 11 99999-4444',
             'position' => 'Amante da Culinária',
             'email_verified_at' => now(),
             'is_active' => true,
         ]);
 
-        User::create([
+        $this->createUser([
             'name' => 'Fernanda Rocha',
             'email' => 'fernanda.rocha@email.com',
             'password' => Hash::make('password'),
-            'role' => 'candidate',
+            'role' => 'user',
             'phone' => '+55 11 99999-5555',
             'position' => 'Nutricionista',
             'email_verified_at' => now(),
             'is_active' => true,
         ]);
+    }
 
-        // Seed recipes, jobs and applications
-        $this->call(RecipeSeeder::class);
-        $this->call(JobSeeder::class);
-        $this->call(ApplicationSeeder::class);
+    private function createUser(array $attributes): User
+    {
+        return User::updateOrCreate(
+            ['email' => $attributes['email']],
+            $attributes
+        );
     }
 }

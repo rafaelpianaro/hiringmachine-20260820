@@ -20,7 +20,7 @@ class UserFactory extends Factory
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => bcrypt('password123'),
-            'role' => 'candidate',
+            'role' => 'user',
             'phone' => $this->faker->phoneNumber(),
             'company' => $this->faker->company(),
             'position' => $this->faker->jobTitle(),
