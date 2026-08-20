@@ -46,7 +46,7 @@ class JobTest extends TestCase
     }
     public function test_recruiter_can_create_job()
     {
-        $user = User::where('email', 'maria@techcompany.com')->first();
+        $user = User::where('email', 'maria.clara@culinaria.com')->first();
         $token = JWTAuth::fromUser($user);
 
         $response = $this->withHeader('Authorization', "Bearer $token")
@@ -74,7 +74,7 @@ class JobTest extends TestCase
     }
     public function test_candidate_cannot_create_job()
     {
-        $user = User::where('email', 'pedro@email.com')->first();
+        $user = User::where('email', 'lucas.costa@email.com')->first();
         $token = JWTAuth::fromUser($user);
 
         $response = $this->withHeader('Authorization', "Bearer $token")
@@ -104,7 +104,7 @@ class JobTest extends TestCase
     }
     public function test_user_can_update_own_job()
     {
-        $user = User::where('email', 'maria@techcompany.com')->first();
+        $user = User::where('email', 'maria.clara@culinaria.com')->first();
         $token = JWTAuth::fromUser($user);
         $job = $user->jobs()->first();
 
@@ -129,7 +129,7 @@ class JobTest extends TestCase
     }
     public function test_user_cannot_update_other_users_job()
     {
-        $user = User::where('email', 'pedro@email.com')->first();
+        $user = User::where('email', 'lucas.costa@email.com')->first();
         $token = JWTAuth::fromUser($user);
         $job = Job::where('user_id', '!=', $user->id)->first();
 
@@ -146,7 +146,7 @@ class JobTest extends TestCase
     }
     public function test_user_can_delete_own_job()
     {
-        $user = User::where('email', 'maria@techcompany.com')->first();
+        $user = User::where('email', 'maria.clara@culinaria.com')->first();
         $token = JWTAuth::fromUser($user);
         $job = $user->jobs()->first();
 

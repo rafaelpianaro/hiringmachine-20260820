@@ -16,26 +16,38 @@ class JobTest extends TestCase
         parent::setUp();
         $this->seed();
     }
+
     public function test_job_belongs_to_user()
     {
         $job = Job::first();
 
         $this->assertInstanceOf(User::class, $job->user);
     }
+
     public function test_job_can_be_active()
     {
         $job = Job::first();
 
         $this->assertTrue($job->isActive());
     }
+
     public function test_job_can_be_remote()
     {
-        $job = Job::where('remote', true)->first();
+        $user = User::first();
 
-        if ($job) {
-            $this->assertTrue($job->isRemote());
-        }
+        $job = Job::create([
+            'user_id' => $user->id,
+            'title' => 'Remote Job',
+            'description' => 'Test Description',
+            'location' => 'Remote',
+            'type' => 'full-time',
+            'company_name' => 'Test Company',
+            'remote' => true,
+        ]);
+
+        $this->assertTrue($job->isRemote());
     }
+
     public function test_job_has_correct_types()
     {
         $fullTime = Job::where('type', 'full-time')->first();
@@ -43,11 +55,20 @@ class JobTest extends TestCase
         $contract = Job::where('type', 'contract')->first();
         $internship = Job::where('type', 'internship')->first();
 
-        if ($fullTime) $this->assertEquals('full-time', $fullTime->type);
-        if ($partTime) $this->assertEquals('part-time', $partTime->type);
-        if ($contract) $this->assertEquals('contract', $contract->type);
-        if ($internship) $this->assertEquals('internship', $internship->type);
+        if ($fullTime) {
+            $this->assertEquals('full-time', $fullTime->type);
+        }
+        if ($partTime) {
+            $this->assertEquals('part-time', $partTime->type);
+        }
+        if ($contract) {
+            $this->assertEquals('contract', $contract->type);
+        }
+        if ($internship) {
+            $this->assertEquals('internship', $internship->type);
+        }
     }
+
     public function test_job_has_salary_range()
     {
         $job = Job::whereNotNull('salary_min')->first();
@@ -58,6 +79,7 @@ class JobTest extends TestCase
             $this->assertGreaterThanOrEqual($job->salary_min, $job->salary_max);
         }
     }
+
     public function test_job_can_be_created()
     {
         $user = User::first();

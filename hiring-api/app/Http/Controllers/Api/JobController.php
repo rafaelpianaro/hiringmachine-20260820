@@ -116,7 +116,7 @@ class JobController extends Controller
 
         $job->update($request->all());
 
-        return $this->successResponse($job->fresh()->load('user:id,name,company'), 'Vaga atualizada com sucesso');
+        return $this->successResponse($job->fresh()->load('user:id,name,company'), 'Vaga atualizada com sucesso.');
     }
 
     /**
@@ -131,7 +131,7 @@ class JobController extends Controller
 
         $job->delete();
 
-        return $this->successResponse(null, 'Vaga excluída com sucesso');
+        return $this->successResponse(null, 'Vaga excluída com sucesso.');
     }
 
     /**

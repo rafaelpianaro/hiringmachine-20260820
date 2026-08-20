@@ -128,7 +128,7 @@ class RecipeController extends Controller
 
         return $this->successResponse(
             $recipe->fresh()->load('user:id,name'),
-            'Receita atualizada com sucesso'
+            'Receita atualizada com sucesso.'
         );
     }
 
@@ -144,7 +144,7 @@ class RecipeController extends Controller
 
         $recipe->delete();
 
-        return $this->successResponse(null, 'Receita excluída com sucesso');
+        return $this->successResponse(null, 'Receita excluída com sucesso.');
     }
 
     /**

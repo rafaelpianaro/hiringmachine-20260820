@@ -21,7 +21,7 @@ class ApplicationTest extends TestCase
     }
     public function test_candidate_can_apply_for_job()
     {
-        $user = User::where('email', 'pedro@email.com')->first();
+        $user = User::where('email', 'lucas.costa@email.com')->first();
         $token = JWTAuth::fromUser($user);
         $job = Job::where('user_id', '!=', $user->id)->first();
 
@@ -48,7 +48,7 @@ class ApplicationTest extends TestCase
     }
     public function test_candidate_cannot_apply_twice_for_same_job()
     {
-        $user = User::where('email', 'pedro@email.com')->first();
+        $user = User::where('email', 'lucas.costa@email.com')->first();
         $token = JWTAuth::fromUser($user);
         $job = Job::where('user_id', '!=', $user->id)->first();
 
@@ -77,7 +77,7 @@ class ApplicationTest extends TestCase
     }
     public function test_candidate_can_list_own_applications()
     {
-        $user = User::where('email', 'pedro@email.com')->first();
+        $user = User::where('email', 'lucas.costa@email.com')->first();
         $token = JWTAuth::fromUser($user);
 
         $response = $this->withHeader('Authorization', "Bearer $token")
@@ -95,7 +95,7 @@ class ApplicationTest extends TestCase
     }
     public function test_recruiter_can_update_application_status()
     {
-        $recruiter = User::where('email', 'maria@techcompany.com')->first();
+        $recruiter = User::where('email', 'maria.clara@culinaria.com')->first();
         $token = JWTAuth::fromUser($recruiter);
 
         $job = $recruiter->jobs()->first();
@@ -126,7 +126,7 @@ class ApplicationTest extends TestCase
     }
     public function test_candidate_cannot_update_application_status()
     {
-        $candidate = User::where('email', 'pedro@email.com')->first();
+        $candidate = User::where('email', 'lucas.costa@email.com')->first();
         $token = JWTAuth::fromUser($candidate);
 
         $application = $candidate->applications()->first();
@@ -143,7 +143,7 @@ class ApplicationTest extends TestCase
     }
     public function test_candidate_can_withdraw_application()
     {
-        $user = User::where('email', 'pedro@email.com')->first();
+        $user = User::where('email', 'lucas.costa@email.com')->first();
         $token = JWTAuth::fromUser($user);
 
         $application = $user->applications()->first();

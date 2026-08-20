@@ -19,7 +19,7 @@ class ProfileTest extends TestCase
         parent::setUp();
         $this->seed();
 
-        $this->user = User::where('email', 'pedro@email.com')->first();
+        $this->user = User::where('email', 'lucas.costa@email.com')->first();
         $this->token = JWTAuth::fromUser($this->user);
     }
     public function test_authenticated_user_can_get_profile()

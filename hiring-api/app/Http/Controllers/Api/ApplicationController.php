@@ -56,6 +56,7 @@ class ApplicationController extends Controller
             'job_id' => $request->job_id,
             'cover_letter' => $request->cover_letter,
             'resume_path' => $request->resume_path,
+            'status' => 'pending',
             'applied_at' => now(),
         ]);
 
@@ -103,7 +104,7 @@ class ApplicationController extends Controller
 
         return $this->successResponse(
             $application->fresh()->load(['job:id,title', 'user:id,name,email']),
-            'Status da candidatura atualizado com sucesso'
+            'Status da candidatura atualizado com sucesso.'
         );
     }
 
@@ -137,6 +138,6 @@ class ApplicationController extends Controller
 
         $application->delete();
 
-        return $this->successResponse(null, 'Candidatura cancelada com sucesso');
+        return $this->successResponse(null, 'Candidatura cancelada com sucesso.');
     }
 }

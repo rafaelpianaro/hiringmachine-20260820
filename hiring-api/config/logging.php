@@ -3,6 +3,7 @@
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
+use Monolog\Processor\PsrLogMessageProcessor;
 
 return [
     'default' => env('LOG_CHANNEL', 'stderr'),
@@ -38,7 +39,7 @@ return [
             'level' => env('LOG_LEVEL', 'debug'),
             'formatter' => env('LOG_STDERR_FORMATTER'),
             'processors' => [
-                'Laravel\\Log\\Psr3MessageProcessor',
+                PsrLogMessageProcessor::class,
             ],
         ],
 

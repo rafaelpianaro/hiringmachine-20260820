@@ -5,7 +5,7 @@ namespace App\Http\Requests\Auth;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class LoginRequest extends FormRequest
+class ChangePasswordRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,8 +23,8 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|email',
-            'password' => 'required|string',
+            'current_password' => 'required',
+            'password' => 'required|string|min:8|confirmed',
         ];
     }
 
@@ -34,10 +34,11 @@ class LoginRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'email.required' => 'O campo e-mail é obrigatório.',
-            'email.email' => 'Por favor, informe um e-mail válido.',
-            'password.required' => 'O campo senha é obrigatório.',
-            'password.string' => 'A senha deve ser um texto válido.',
+            'current_password.required' => 'O campo senha atual é obrigatório.',
+            'password.required' => 'O campo nova senha é obrigatório.',
+            'password.string' => 'A nova senha deve ser um texto.',
+            'password.min' => 'A nova senha deve ter pelo menos 8 caracteres.',
+            'password.confirmed' => 'A confirmação da nova senha não confere.',
         ];
     }
 }

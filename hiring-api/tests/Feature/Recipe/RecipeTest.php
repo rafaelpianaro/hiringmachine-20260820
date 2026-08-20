@@ -46,7 +46,7 @@ class RecipeTest extends TestCase
     }
     public function test_user_can_create_recipe()
     {
-        $user = User::where('email', 'pedro@email.com')->first();
+        $user = User::where('email', 'lucas.costa@email.com')->first();
         $token = JWTAuth::fromUser($user);
 
         $response = $this->withHeader('Authorization', "Bearer $token")
@@ -88,7 +88,7 @@ class RecipeTest extends TestCase
     }
     public function test_user_can_update_own_recipe()
     {
-        $user = User::where('email', 'maria@techcompany.com')->first();
+        $user = User::where('email', 'maria.clara@culinaria.com')->first();
         $token = JWTAuth::fromUser($user);
         $recipe = $user->recipes()->first();
 
@@ -109,7 +109,7 @@ class RecipeTest extends TestCase
     }
     public function test_user_cannot_update_other_users_recipe()
     {
-        $user = User::where('email', 'pedro@email.com')->first();
+        $user = User::where('email', 'lucas.costa@email.com')->first();
         $token = JWTAuth::fromUser($user);
         $recipe = Recipe::where('user_id', '!=', $user->id)->first();
 
@@ -122,7 +122,7 @@ class RecipeTest extends TestCase
     }
     public function test_user_can_delete_own_recipe()
     {
-        $user = User::where('email', 'maria@techcompany.com')->first();
+        $user = User::where('email', 'maria.clara@culinaria.com')->first();
         $token = JWTAuth::fromUser($user);
         $recipe = $user->recipes()->first();
 

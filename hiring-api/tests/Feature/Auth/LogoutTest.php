@@ -18,7 +18,7 @@ class LogoutTest extends TestCase
     }
     public function test_authenticated_user_can_logout()
     {
-        $user = User::where('email', 'pedro@email.com')->first();
+        $user = User::where('email', 'lucas.costa@email.com')->first();
         $token = JWTAuth::fromUser($user);
 
         $response = $this->withHeader('Authorization', "Bearer $token")
@@ -37,7 +37,7 @@ class LogoutTest extends TestCase
     }
     public function test_token_is_invalidated_after_logout()
     {
-        $user = User::where('email', 'pedro@email.com')->first();
+        $user = User::where('email', 'lucas.costa@email.com')->first();
         $token = JWTAuth::fromUser($user);
 
         // Logout

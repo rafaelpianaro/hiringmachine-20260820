@@ -20,7 +20,7 @@ class LoginTest extends TestCase
     public function test_user_can_login_with_valid_credentials()
     {
         $response = $this->postJson('/api/v1/auth/login', [
-            'email' => 'pedro@email.com',
+            'email' => 'lucas.costa@email.com',
             'password' => 'password',
         ]);
 
@@ -38,7 +38,7 @@ class LoginTest extends TestCase
     public function test_user_cannot_login_with_invalid_credentials()
     {
         $response = $this->postJson('/api/v1/auth/login', [
-            'email' => 'pedro@email.com',
+            'email' => 'lucas.costa@email.com',
             'password' => 'wrongpassword',
         ]);
 
@@ -67,7 +67,7 @@ class LoginTest extends TestCase
     public function test_login_requires_password()
     {
         $response = $this->postJson('/api/v1/auth/login', [
-            'email' => 'pedro@email.com',
+            'email' => 'lucas.costa@email.com',
         ]);
 
         $response->assertStatus(422)
@@ -75,11 +75,11 @@ class LoginTest extends TestCase
     }
     public function test_inactive_user_cannot_login()
     {
-        $user = User::where('email', 'pedro@email.com')->first();
+        $user = User::where('email', 'lucas.costa@email.com')->first();
         $user->update(['is_active' => false]);
 
         $response = $this->postJson('/api/v1/auth/login', [
-            'email' => 'pedro@email.com',
+            'email' => 'lucas.costa@email.com',
             'password' => 'password',
         ]);
 

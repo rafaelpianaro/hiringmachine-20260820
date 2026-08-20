@@ -17,8 +17,8 @@ class DatabaseSeeder extends Seeder
 
         // Seed recipes, jobs and applications
         $this->call(RecipeSeeder::class);
-        // $this->call(JobSeeder::class);
-        // $this->call(ApplicationSeeder::class);
+        $this->call(JobSeeder::class);
+        $this->call(ApplicationSeeder::class);
     }
 
     private function seedUsers(): void
@@ -90,6 +90,18 @@ class DatabaseSeeder extends Seeder
             'role' => 'user',
             'phone' => '+55 11 99999-5555',
             'position' => 'Nutricionista',
+            'email_verified_at' => now(),
+            'is_active' => true,
+        ]);
+
+        // Candidato (cozinha)
+        $this->createUser([
+            'name' => 'Lucas Costa',
+            'email' => 'lucas.costa@email.com',
+            'password' => Hash::make('password'),
+            'role' => 'candidate',
+            'phone' => '+55 11 99999-6666',
+            'position' => 'Aprendiz de Cozinha',
             'email_verified_at' => now(),
             'is_active' => true,
         ]);
