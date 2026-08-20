@@ -1,0 +1,43 @@
+# General
+.DS_Store
+Thumbs.db
+*.log
+*.swp
+*.swo
+.idea/
+.vscode/
+coverage/
+
+# Environment files
+.env
+.env.*
+!.env.example
+!hiring-api/.env.example
+!hiring-front/.env.example
+!hiring-api/.env.sample
+!hiring-front/.env.sample
+
+# Laravel API
+/hiring-api/.env
+/hiring-api/vendor/
+/hiring-api/node_modules/
+/hiring-api/public/hot
+/hiring-api/public/storage
+/hiring-api/storage/*.key
+/hiring-api/storage/logs/*
+/hiring-api/storage/framework/*
+/hiring-api/bootstrap/cache/*
+/hiring-api/.phpunit.result.cache
+/hiring-api/.phpunit.cache
+/hiring-api/auth.json
+/hiring-api/.fleet
+/hiring-api/.idea
+/hiring-api/.vscode
+
+# Vue frontend
+/hiring-front/node_modules/
+/hiring-front/dist/
+/hiring-front/.vite/
+/hiring-front/.cache/
+/hiring-front/.env
+/hiring-front/.env.*

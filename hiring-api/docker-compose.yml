@@ -1,0 +1,97 @@
+services:
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: ${APP_CONTAINER_PREFIX:-starter-kit-inertia-react}-app
+        container_name: ${APP_CONTAINER_PREFIX:-starter-kit-inertia-react}-app
+        restart: unless-stopped
+        working_dir: /var/www/html
+        volumes:
+            - .:/var/www/html
+            - playwright_cache:/root/.cache/ms-playwright
+        ports:
+            - '${APP_PORT:-8080}:80'
+            # Dev server do Vite (HMR) — usado em desenvolvimento para hot reload do frontend
+            - '${VITE_PORT:-5173}:5173'
+        extra_hosts:
+            - 'host.docker.internal:host-gateway'
+        environment:
+            DB_CONNECTION: pgsql
+            DB_HOST: pgsql
+            DB_PORT: '${DB_PORT:-4747}'
+            DB_DATABASE: '${DB_DATABASE}'
+            DB_USERNAME: '${DB_USERNAME}'
+            DB_PASSWORD: '${DB_PASSWORD}'
+            APP_URL: http://localhost:${APP_PORT:-8080}
+            # Xdebug (ver docker/xdebug.ini) — sobrescreva no .env se necessário
+            XDEBUG_MODE: '${XDEBUG_MODE:-debug}'
+            XDEBUG_START_WITH_REQUEST: '${XDEBUG_START_WITH_REQUEST:-yes}'
+            # Host do debugger do VSCode. Deixe vazio para o entrypoint detectar automaticamente
+            # (Docker nativo Linux / Docker Desktop Mac-Windows) ou rode ./xdebug-up.sh, que
+            # detecta o IP real do host e injeta aqui (necessário no Docker Desktop for Linux).
+            XDEBUG_CLIENT_HOST: '${XDEBUG_CLIENT_HOST:-}'
+        depends_on:
+            pgsql:
+                condition: service_healthy
+            redis:
+                condition: service_healthy
+
+    pgsql:
+        image: postgres:16-alpine
+        container_name: ${APP_CONTAINER_PREFIX:-starter-kit-inertia-react}-pgsql
+        restart: unless-stopped
+        command: ['-p', '${DB_PORT:-4747}']
+        environment:
+            POSTGRES_DB: '${DB_DATABASE}'
+            POSTGRES_USER: '${DB_USERNAME}'
+            POSTGRES_PASSWORD: '${DB_PASSWORD}'
+        ports:
+            - '${DB_PORT:-4747}:${DB_PORT:-4747}'
+        volumes:
+            - pgsql_data:/var/lib/postgresql/data
+        healthcheck:
+            test: ['CMD-SHELL', 'pg_isready -U ${DB_USERNAME} -d ${DB_DATABASE} -p ${DB_PORT:-4747}']
+            interval: 5s
+            timeout: 5s
+            retries: 10
+
+    # Mailpit — captura de e-mails para desenvolvimento local.
+    # UI: http://localhost:${MAILPIT_PORT:-8025} | SMTP interno: mailpit:1025
+    mailpit:
+        image: axllent/mailpit:latest
+        container_name: ${APP_CONTAINER_PREFIX:-starter-kit-inertia-react}-mailpit
+        restart: unless-stopped
+        ports:
+            - '${MAILPIT_PORT:-8025}:8025'
+        environment:
+            MP_MAX_MESSAGES: 5000
+            MP_DATABASE: /data/mailpit.db
+        volumes:
+            - mailpit_data:/data
+        healthcheck:
+            test: ['CMD', 'wget', '--spider', '-q', 'http://127.0.0.1:8025/readyz']
+            interval: 10s
+            timeout: 5s
+            retries: 3
+
+    # Redis — cache, sessão e fila da aplicação.
+    # Acesso interno pelo container da app em redis:${REDIS_PORT:-6379}.
+    redis:
+        image: redis:7-alpine
+        container_name: ${APP_CONTAINER_PREFIX:-starter-kit-inertia-react}-redis
+        restart: unless-stopped
+        command: ['redis-server', '--appendonly', 'yes', '--port', '${REDIS_PORT:-6379}']
+        volumes:
+            - redis_data:/data
+        healthcheck:
+            test: ['CMD', 'redis-cli', '-p', '${REDIS_PORT:-6379}', 'ping']
+            interval: 5s
+            timeout: 5s
+            retries: 10
+
+volumes:
+    pgsql_data:
+    playwright_cache:
+    mailpit_data:
+    redis_data:

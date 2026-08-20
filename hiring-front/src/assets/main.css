@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply font-sans text-graphite bg-off-white antialiased;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #FDFDF9;
+}
+::-webkit-scrollbar-thumb {
+  background: #D8DED2;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #8DB33F;
+}

@@ -1,0 +1,217 @@
+[
+  {
+    "id": "r1",
+    "title": "Frango Assado com Ervas e Limão",
+    "slug": "frango-assado-ervas-limao",
+    "coverImage": "https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=800&h=600&fit=crop",
+    "category": "Carnes",
+    "prepTimeMinutes": 65,
+    "servings": 4,
+    "difficulty": "Médio",
+    "ingredients": [
+      "1 frango inteiro",
+      "3 dentes de alho",
+      "Alecrim fresco",
+      "1 limão",
+      "Azeite",
+      "Sal e pimenta"
+    ],
+    "steps": [
+      "Pré-aqueça o forno a 200°C.",
+      "Tempere o frango com sal, pimenta e alho picado.",
+      "Espalhe alecrim e regue com azeite.",
+      "Asse por 60 minutos até dourar."
+    ],
+    "authorId": "u2",
+    "ratings": [
+      {
+        "userId": "u1",
+        "stars": 3
+      },
+      {
+        "userId": "u3",
+        "stars": 2
+      }
+    ],
+    "createdAt": "2026-08-10",
+    "updatedAt": "2026-08-10"
+  },
+  {
+    "id": "r2",
+    "title": "Tiramisù Clássico Italiano",
+    "slug": "tiramisu-classico",
+    "coverImage": "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=800&h=600&fit=crop",
+    "category": "Sobremesas",
+    "prepTimeMinutes": 40,
+    "servings": 6,
+    "difficulty": "Médio",
+    "ingredients": [
+      "500g mascarpone",
+      "4 ovos",
+      "200g açúcar",
+      "300ml café forte",
+      "200g biscoitos champagne",
+      "Cacau em pó"
+    ],
+    "steps": [
+      "Separe as gemas das claras.",
+      "Bata as gemas com açúcar e misture o mascarpone.",
+      "Monte camadas de biscoito embebido no café e creme.",
+      "Leve à geladeira por 4 horas e polvilhe cacau antes de servir."
+    ],
+    "authorId": "u1",
+    "ratings": [
+      {
+        "userId": "u2",
+        "stars": 3
+      },
+      {
+        "userId": "u3",
+        "stars": 3
+      }
+    ],
+    "createdAt": "2026-08-12",
+    "updatedAt": "2026-08-12"
+  },
+  {
+    "id": "r3",
+    "title": "Sopa de Abóbora Cremosa",
+    "slug": "sopa-abobora-cremosa",
+    "coverImage": "https://images.unsplash.com/photo-1476718406336-bb5a9690ee2a?w=800&h=600&fit=crop",
+    "category": "Sopas",
+    "prepTimeMinutes": 35,
+    "servings": 4,
+    "difficulty": "Fácil",
+    "ingredients": [
+      "1kg abóbora",
+      "1 cebola",
+      "2 dentes de alho",
+      "500ml caldo de legumes",
+      "100ml creme de leite",
+      "Azeite"
+    ],
+    "steps": [
+      "Refogue cebola e alho no azeite.",
+      "Adicione a abóbora em cubos e o caldo.",
+      "Cozinhe até a abóbora ficar macia.",
+      "Bata no liquidificador e adicione o creme."
+    ],
+    "authorId": "u3",
+    "ratings": [
+      {
+        "userId": "u1",
+        "stars": 2
+      }
+    ],
+    "createdAt": "2026-08-14",
+    "updatedAt": "2026-08-14"
+  },
+  {
+    "id": "r4",
+    "title": "Risoto de Funghi Porcini",
+    "slug": "risoto-funghi-porcini",
+    "coverImage": "https://images.unsplash.com/photo-1476124369491-e7addf5db371?w=800&h=600&fit=crop",
+    "category": "Massas",
+    "prepTimeMinutes": 45,
+    "servings": 4,
+    "difficulty": "Difícil",
+    "ingredients": [
+      "300g arroz arbóreo",
+      "30g funghi secchi",
+      "1 cebola",
+      "100ml vinho branco",
+      "1L caldo de legumes",
+      "50g parmesão",
+      "Manteiga"
+    ],
+    "steps": [
+      "Hidrate os cogumelos secos em água morna.",
+      "Refogue a cebola e adicione o arroz.",
+      "Deglace com vinho e vá adicionando o caldo aos poucos.",
+      "Finalize com manteiga e parmesão."
+    ],
+    "authorId": "u2",
+    "ratings": [
+      {
+        "userId": "u1",
+        "stars": 3
+      },
+      {
+        "userId": "u3",
+        "stars": 1
+      }
+    ],
+    "createdAt": "2026-08-15",
+    "updatedAt": "2026-08-15"
+  },
+  {
+    "id": "r5",
+    "title": "Salada Mediterrânea de Grão-de-Bico",
+    "slug": "salada-mediterranea-grao",
+    "coverImage": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&h=600&fit=crop",
+    "category": "Vegetariano",
+    "prepTimeMinutes": 15,
+    "servings": 3,
+    "difficulty": "Fácil",
+    "ingredients": [
+      "1 lata grão-de-bico",
+      "1 pepino",
+      "200g tomate cereja",
+      "1 cebola roxa",
+      "Azeite",
+      "Suco de limão",
+      "Salsinha"
+    ],
+    "steps": [
+      "Escorra e lave o grão-de-bico.",
+      "Corte os vegetais em cubos pequenos.",
+      "Misture tudo em uma tigela.",
+      "Regue com azeite, limão e salpique salsinha."
+    ],
+    "authorId": "u1",
+    "ratings": [
+      {
+        "userId": "u2",
+        "stars": 2
+      }
+    ],
+    "createdAt": "2026-08-16",
+    "updatedAt": "2026-08-16"
+  },
+  {
+    "id": "r6",
+    "title": "Smoothie de Manga e Maracujá",
+    "slug": "smoothie-manga-maracuja",
+    "coverImage": "https://images.unsplash.com/photo-1623065422902-30a2d299bbe4?w=800&h=600&fit=crop",
+    "category": "Bebidas",
+    "prepTimeMinutes": 10,
+    "servings": 2,
+    "difficulty": "Fácil",
+    "ingredients": [
+      "2 mangas maduras",
+      "Polpa de 3 maracujás",
+      "200ml iogurte natural",
+      "Gelo",
+      "Mel a gosto"
+    ],
+    "steps": [
+      "Descasque as mangas e corte em cubos.",
+      "Adicione todos os ingredientes no liquidificador.",
+      "Bata até ficar homogêneo.",
+      "Sirva bem gelado."
+    ],
+    "authorId": "u3",
+    "ratings": [
+      {
+        "userId": "u1",
+        "stars": 3
+      },
+      {
+        "userId": "u2",
+        "stars": 3
+      }
+    ],
+    "createdAt": "2026-08-17",
+    "updatedAt": "2026-08-17"
+  }
+]
