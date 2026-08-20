@@ -108,7 +108,7 @@
   </div>
 
   <!-- Detail Modal -->
-  <RecipeDetailModal v-model="showModal" :recipe="selectedRecipe" @deleted="onRecipeDeleted" />
+  <RecipeDetailModal v-if="selectedRecipe" v-model="showModal" :recipe="selectedRecipe" @deleted="onRecipeDeleted" />
 
   <!-- Delete Confirmation -->
   <Teleport to="body">

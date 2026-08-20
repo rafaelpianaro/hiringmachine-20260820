@@ -39,7 +39,10 @@
         <StarRating :average="averageRating" :readonly="!canRate" :show-count="true" :count="ratingCount"
           @rate="(stars) => $emit('rate', recipe.id, stars)" />
         <div class="flex items-center gap-2">
-          <img :src="author.avatarUrl" class="w-6 h-6 rounded-full object-cover" alt="">
+          <img v-if="author.avatarUrl" :src="author.avatarUrl" class="w-6 h-6 rounded-full object-cover" alt="">
+          <div v-else class="w-6 h-6 rounded-full bg-olive/20 flex items-center justify-center text-xs font-medium text-olive">
+            {{ author.name.charAt(0) }}
+          </div>
           <span class="text-xs text-sage">{{ author.name.split(' ')[0] }}</span>
         </div>
       </div>
@@ -59,13 +62,10 @@ defineEmits(['click', 'delete', 'rate'])
 const router = useRouter()
 const userStore = useUserStore()
 
-const users = {
-  u1: { name: 'Ana Cozinheira', avatarUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face' },
-  u2: { name: 'Marco Sabor', avatarUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face' },
-  u3: { name: 'Julia Tempero', avatarUrl: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face' }
-}
-
-const author = computed(() => users[props.recipe.authorId] || { name: 'Desconhecido', avatarUrl: '' })
+const author = computed(() => ({
+  name: props.recipe.authorName || 'Desconhecido',
+  avatarUrl: props.recipe.authorAvatar || ''
+}))
 
 const averageRating = computed(() => {
   if (!props.recipe.ratings.length) return 0

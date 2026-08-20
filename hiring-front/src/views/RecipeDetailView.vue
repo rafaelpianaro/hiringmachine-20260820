@@ -18,7 +18,10 @@
       </div>
       <div class="flex flex-wrap items-center gap-6 mb-10 pb-8 border-b border-border-light">
         <div class="flex items-center gap-3">
-          <img :src="author.avatarUrl" class="w-10 h-10 rounded-full object-cover" alt="">
+          <img v-if="author.avatarUrl" :src="author.avatarUrl" class="w-10 h-10 rounded-full object-cover" alt="">
+          <div v-else class="w-10 h-10 rounded-full bg-olive/20 flex items-center justify-center text-sm font-medium text-olive">
+            {{ author.name.charAt(0) }}
+          </div>
           <div>
             <div class="text-sm font-medium text-graphite">{{ author.name }}</div>
             <div class="text-xs text-sage">{{ recipe.createdAt }}</div>
@@ -125,13 +128,10 @@ const showDeleteModal = ref(false)
 const checkedIngredients = ref(new Set())
 const userRating = ref(0)
 
-const users = {
-  u1: { name: 'Ana Cozinheira', avatarUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face' },
-  u2: { name: 'Marco Sabor', avatarUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face' },
-  u3: { name: 'Julia Tempero', avatarUrl: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face' }
-}
-
-const author = computed(() => users[recipe.value?.authorId] || { name: 'Desconhecido', avatarUrl: '' })
+const author = computed(() => ({
+  name: recipe.value?.authorName || 'Desconhecido',
+  avatarUrl: recipe.value?.authorAvatar || ''
+}))
 const averageRating = computed(() => {
   if (!recipe.value?.ratings.length) return '0.0'
   return (recipe.value.ratings.reduce((a, b) => a + b.stars, 0) / recipe.value.ratings.length).toFixed(1)

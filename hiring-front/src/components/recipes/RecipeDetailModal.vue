@@ -26,7 +26,10 @@
             <!-- Meta -->
             <div class="flex flex-wrap items-center gap-4 mb-8 pb-6 border-b border-border-light">
               <div class="flex items-center gap-3">
-                <img :src="author.avatarUrl" class="w-10 h-10 rounded-full object-cover" alt="">
+                <img v-if="author.avatarUrl" :src="author.avatarUrl" class="w-10 h-10 rounded-full object-cover" alt="">
+                <div v-else class="w-10 h-10 rounded-full bg-olive/20 flex items-center justify-center text-sm font-medium text-olive">
+                  {{ author.name.charAt(0) }}
+                </div>
                 <div>
                   <div class="text-sm font-medium text-graphite">{{ author.name }}</div>
                   <div class="text-xs text-sage">{{ recipe.createdAt }}</div>
@@ -123,8 +126,7 @@
 
   <!-- Delete Confirmation -->
   <Teleport to="body">
-    <Transition name="fade">
-      <div v-if="showDeleteModal" class="fixed inset-0 z-[110] flex items-center justify-center p-4" @click.self="showDeleteModal = false">
+    <Transition name="fade">          <div v-if="showDeleteModal" class="fixed inset-0 z-[110] flex items-center justify-center p-4" @click.self="showDeleteModal = false">
         <div class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
         <div class="relative bg-white rounded-3xl p-8 w-full max-w-sm shadow-2xl text-center">
           <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-error/10 flex items-center justify-center text-error">
@@ -165,13 +167,10 @@ const checkedIngredients = ref(new Set())
 const showDeleteModal = ref(false)
 const userRating = ref(0)
 
-const users = {
-  u1: { name: 'Ana Cozinheira', avatarUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face' },
-  u2: { name: 'Marco Sabor', avatarUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face' },
-  u3: { name: 'Julia Tempero', avatarUrl: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face' }
-}
-
-const author = computed(() => users[props.recipe?.authorId] || { name: 'Desconhecido', avatarUrl: '' })
+const author = computed(() => ({
+  name: props.recipe?.authorName || 'Desconhecido',
+  avatarUrl: props.recipe?.authorAvatar || ''
+}))
 
 const averageRating = computed(() => {
   if (!props.recipe?.ratings.length) return '0.0'

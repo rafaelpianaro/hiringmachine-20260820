@@ -23,7 +23,7 @@
           :class="['px-4 py-2 rounded-full text-sm font-medium transition', recipeStore.activeCategory === 'Todas' ? 'bg-graphite text-white' : 'bg-white text-sage hover:bg-graphite hover:text-white']">
           Todas
         </button>
-        <button v-for="cat in ['Sobremesas', 'Sopas', 'Vegetariano', 'Carnes', 'Massas', 'Bebidas']" :key="cat"
+        <button v-for="cat in apiCategories" :key="cat"
           @click="recipeStore.setCategory(cat)"
           :class="['px-4 py-2 rounded-full text-sm font-medium transition', recipeStore.activeCategory === cat ? 'bg-graphite text-white' : 'bg-white text-sage hover:bg-graphite hover:text-white']">
           {{ cat }}
@@ -54,7 +54,7 @@
   </section>
 
   <!-- Detail Modal -->
-  <RecipeDetailModal v-model="showModal" :recipe="selectedRecipe" @deleted="onRecipeDeleted" />
+  <RecipeDetailModal v-if="selectedRecipe" v-model="showModal" :recipe="selectedRecipe" @deleted="onRecipeDeleted" />
 
   <!-- Delete Confirmation -->
   <Teleport to="body">
@@ -78,7 +78,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRecipeStore } from '@/stores/recipeStore'
 import { useToastStore } from '@/stores/toastStore'
 import RecipeCard from './RecipeCard.vue'
@@ -86,6 +86,11 @@ import RecipeDetailModal from './RecipeDetailModal.vue'
 
 const recipeStore = useRecipeStore()
 const toast = useToastStore()
+
+const apiCategories = computed(() => {
+  const cats = new Set(recipeStore.recipes.map(r => r.category).filter(Boolean))
+  return [...cats].sort()
+})
 
 const showModal = ref(false)
 const selectedRecipe = ref(null)
