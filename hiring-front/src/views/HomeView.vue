@@ -1,7 +1,7 @@
 <template>
   <div>
     <Hero />
-    <CategoryGrid />
+    <!-- <CategoryGrid /> -->
     <RecipeGrid />
     <CtaSection />
   </div>
