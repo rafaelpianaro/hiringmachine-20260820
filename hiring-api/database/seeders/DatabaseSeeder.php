@@ -14,11 +14,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->seedUsers();
-
-        // Seed recipes, jobs and applications
         $this->call(RecipeSeeder::class);
-        $this->call(JobSeeder::class);
-        $this->call(ApplicationSeeder::class);
     }
 
     private function seedUsers(): void
@@ -35,12 +31,11 @@ class DatabaseSeeder extends Seeder
             'is_active' => true,
         ]);
 
-        // Chefs / autores de receitas (role: recruiter)
         $this->createUser([
             'name' => 'Maria Clara',
             'email' => 'maria.clara@culinaria.com',
             'password' => Hash::make('password'),
-            'role' => 'recruiter',
+            'role' => 'user',
             'company' => 'Casa da Maria',
             'position' => 'Chef de Cozinha',
             'phone' => '+55 11 99999-1111',
@@ -52,7 +47,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'João Pedro',
             'email' => 'joao.pedro@culinaria.com',
             'password' => Hash::make('password'),
-            'role' => 'recruiter',
+            'role' => 'user',
             'company' => 'Sabor & Arte',
             'position' => 'Confeiteiro',
             'phone' => '+55 11 99999-2222',
@@ -60,7 +55,6 @@ class DatabaseSeeder extends Seeder
             'is_active' => true,
         ]);
 
-        // Usuários comuns (role: user)
         $this->createUser([
             'name' => 'Ana Souza',
             'email' => 'ana.souza@email.com',
@@ -94,12 +88,11 @@ class DatabaseSeeder extends Seeder
             'is_active' => true,
         ]);
 
-        // Candidato (cozinha)
         $this->createUser([
             'name' => 'Lucas Costa',
             'email' => 'lucas.costa@email.com',
             'password' => Hash::make('password'),
-            'role' => 'candidate',
+            'role' => 'user',
             'phone' => '+55 11 99999-6666',
             'position' => 'Aprendiz de Cozinha',
             'email_verified_at' => now(),

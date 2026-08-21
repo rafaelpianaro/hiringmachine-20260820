@@ -13,7 +13,7 @@ class RecipeSeeder extends Seeder
      */
     public function run(): void
     {
-        $chef = User::where('role', 'recruiter')->first();
+        $chef = User::where('email', 'maria.clara@culinaria.com')->first() ?? User::query()->first();
 
         if (!$chef) {
             return;
@@ -171,7 +171,17 @@ class RecipeSeeder extends Seeder
         ];
 
         foreach ($recipes as $recipe) {
-            Recipe::create($recipe);
+            $recipeModel = Recipe::create($recipe);
+
+            $users = User::where('id', '!=', $recipeModel->user_id)->get();
+            $ratingValues = [5, 4, 3, 5, 4];
+
+            foreach ($users as $index => $user) {
+                $recipeModel->ratings()->updateOrCreate(
+                    ['user_id' => $user->id],
+                    ['stars' => $ratingValues[$index % count($ratingValues)]]
+                );
+            }
         }
     }
 }

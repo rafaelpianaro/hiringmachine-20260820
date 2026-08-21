@@ -14,7 +14,7 @@ return new class extends Migration
     {
         if (DB::getDriverName() === 'pgsql') {
             DB::statement("ALTER TABLE users DROP CONSTRAINT IF EXISTS users_role_check");
-            DB::statement("ALTER TABLE users ADD CONSTRAINT users_role_check CHECK (role IN ('admin', 'recruiter', 'candidate', 'user'))");
+            DB::statement("ALTER TABLE users ADD CONSTRAINT users_role_check CHECK (role IN ('admin', 'user'))");
         }
     }
 
@@ -25,7 +25,7 @@ return new class extends Migration
     {
         if (DB::getDriverName() === 'pgsql') {
             DB::statement("ALTER TABLE users DROP CONSTRAINT IF EXISTS users_role_check");
-            DB::statement("ALTER TABLE users ADD CONSTRAINT users_role_check CHECK (role IN ('admin', 'recruiter', 'candidate'))");
+            DB::statement("ALTER TABLE users ADD CONSTRAINT users_role_check CHECK (role IN ('admin', 'recruiter', 'candidate', 'user'))");
         }
     }
 };

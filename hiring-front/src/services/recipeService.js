@@ -1,4 +1,4 @@
-const API_BASE = import.meta.env.VITE_API_BASE_URL || '/api/hm'
+const API_BASE = import.meta.env.VITE_API_BASE_URL || '/api/v1'
 
 // Imagens de comida por categoria (Unsplash)
 const CATEGORY_IMAGES = {

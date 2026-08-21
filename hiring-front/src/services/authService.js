@@ -1,4 +1,4 @@
-const API_BASE = import.meta.env.VITE_API_BASE_URL || '/api/hm'
+const API_BASE = import.meta.env.VITE_API_BASE_URL || '/api/v1'
 
 async function apiFetch(path, options = {}) {
   const url = `${API_BASE}${path}`
