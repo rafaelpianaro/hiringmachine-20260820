@@ -142,7 +142,11 @@ const toast = useToastStore()
 
 const searchQuery = ref('')
 const showModal = ref(false)
-const selectedRecipe = ref(null)
+const selectedRecipeId = ref(null)
+const selectedRecipe = computed(() => {
+  if (!selectedRecipeId.value) return null
+  return recipeStore.myRecipes.find(r => r.id === selectedRecipeId.value) || null
+})
 const showDeleteModal = ref(false)
 const deleteTargetId = ref(null)
 
@@ -170,12 +174,15 @@ const avgRating = computed(() => {
 })
 
 function getAverage(ratings) {
-  if (!ratings.length) return 0
-  return ratings.reduce((a, b) => a + b.stars, 0) / ratings.length
+  const normalized = Array.isArray(ratings) ? ratings : []
+  if (!normalized.length) return 0
+
+  const total = normalized.reduce((sum, item) => sum + Number(item?.stars || 0), 0)
+  return total / normalized.length
 }
 
 function openModal(recipe) {
-  selectedRecipe.value = recipe
+  selectedRecipeId.value = recipe.id
   showModal.value = true
 }
 

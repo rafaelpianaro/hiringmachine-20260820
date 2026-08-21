@@ -68,8 +68,11 @@ const author = computed(() => ({
 }))
 
 const averageRating = computed(() => {
-  if (!props.recipe.ratings.length) return 0
-  return props.recipe.ratings.reduce((a, b) => a + b.stars, 0) / props.recipe.ratings.length
+  const ratings = Array.isArray(props.recipe?.ratings) ? props.recipe.ratings : []
+  if (!ratings.length) return 0
+
+  const total = ratings.reduce((sum, item) => sum + Number(item?.stars || 0), 0)
+  return total / ratings.length
 })
 
 const ratingCount = computed(() => props.recipe.ratings.length)

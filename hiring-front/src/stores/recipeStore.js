@@ -101,8 +101,18 @@ export const useRecipeStore = defineStore('recipe', () => {
 
   async function rateRecipe(recipeId, stars) {
     const updated = await recipeService.rateRecipe(recipeId, stars)
-    const idx = recipes.value.findIndex(r => r.id === recipeId)
-    if (idx !== -1) recipes.value[idx] = updated
+    // Atualiza a receita no array local com os ratings retornados
+    const id = String(recipeId)
+    const idx = recipes.value.findIndex(r => r.id === id)
+    if (idx !== -1) {
+      // Substitui o objeto inteiro para garantir reatividade
+      recipes.value.splice(idx, 1, updated)
+    }
+    // Atualiza também em myRecipes se existir
+    const idxMy = myRecipes.value.findIndex(r => r.id === id)
+    if (idxMy !== -1) {
+      myRecipes.value.splice(idxMy, 1, updated)
+    }
     return updated
   }
 

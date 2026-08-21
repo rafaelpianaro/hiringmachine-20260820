@@ -173,8 +173,11 @@ const author = computed(() => ({
 }))
 
 const averageRating = computed(() => {
-  if (!props.recipe?.ratings.length) return '0.0'
-  return (props.recipe.ratings.reduce((a, b) => a + b.stars, 0) / props.recipe.ratings.length).toFixed(1)
+  const ratings = Array.isArray(props.recipe?.ratings) ? props.recipe.ratings : []
+  if (!ratings.length) return '0.0'
+
+  const total = ratings.reduce((sum, item) => sum + Number(item?.stars || 0), 0)
+  return (total / ratings.length).toFixed(1)
 })
 
 const isOwner = computed(() => {
@@ -198,6 +201,13 @@ watch(() => props.modelValue, (val) => {
     document.body.style.overflow = ''
   }
 })
+
+watch(() => props.recipe?.ratings, () => {
+  if (!props.modelValue || !userStore.currentUser || !props.recipe) return
+
+  const r = props.recipe.ratings.find(rat => rat.userId === userStore.currentUser.id)
+  userRating.value = r ? r.stars : 0
+}, { deep: true, immediate: true })
 
 function close() {
   emit('update:modelValue', false)

@@ -32,7 +32,6 @@ const CATEGORY_IMAGES = {
     'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&h=600&fit=crop',
     'https://images.unsplash.com/photo-1574085733277-851d9d856a3a?w=800&h=600&fit=crop',
     'https://images.unsplash.com/photo-1568254183919-78a4f43a2877?w=800&h=600&fit=crop',
-    'https://images.unsplash.com/photo-1594818379496-da1e345b0ded?w=800&h=600&fit=crop'
   ],
   'Sobremesas': [
     'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=800&h=600&fit=crop',

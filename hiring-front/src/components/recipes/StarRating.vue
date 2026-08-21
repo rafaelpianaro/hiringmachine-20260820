@@ -22,15 +22,33 @@ const props = defineProps({
   modelValue: { type: Number, default: 0 },
   average: { type: Number, default: 0 },
   readonly: { type: Boolean, default: false },
-  max: { type: Number, default: 3 },
+  max: { type: Number, default: 5 },
   showCount: { type: Boolean, default: false },
   count: { type: Number, default: 0 }
 })
 
 const emit = defineEmits(['update:modelValue', 'rate'])
 
+const normalizedAverage = computed(() => {
+  const value = Number(props.average)
+  return Number.isFinite(value) ? value : 0
+})
+
+const normalizedModelValue = computed(() => {
+  const value = Number(props.modelValue)
+  return Number.isFinite(value) ? value : 0
+})
+
+const displayValue = computed(() => {
+  if (props.readonly) return normalizedAverage.value
+
+  if (normalizedModelValue.value > 0) return normalizedModelValue.value
+
+  return normalizedAverage.value
+})
+
 const filledStars = computed(() => {
-  return props.readonly ? Math.round(props.average) : props.modelValue
+  return Math.max(0, Math.min(props.max, Math.round(displayValue.value)))
 })
 
 function handleClick(star) {

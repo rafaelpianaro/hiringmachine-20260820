@@ -1,23 +1,23 @@
 <template>
-  <div class="max-w-3xl mx-auto px-6 pt-24 pb-16">
-    <button @click="$router.back()" class="mb-6 flex items-center gap-2 text-sm text-sage hover:text-olive transition">
+  <div class="max-w-3xl px-6 pt-24 pb-16 mx-auto">
+    <button @click="$router.back()" class="flex items-center gap-2 mb-6 text-sm transition text-sage hover:text-olive">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
       Voltar
     </button>
 
-    <h1 class="font-serif text-3xl md:text-4xl font-medium mb-8 text-graphite">
+    <h1 class="mb-8 font-serif text-3xl font-medium md:text-4xl text-graphite">
       {{ isEditing ? 'Editar receita' : 'Nova receita' }}
     </h1>
 
     <!-- Global Error -->
-    <div v-if="globalError" class="mb-6 p-4 rounded-xl bg-error/10 text-error text-sm">
+    <div v-if="globalError" class="p-4 mb-6 text-sm rounded-xl bg-error/10 text-error">
       {{ globalError }}
     </div>
 
     <form @submit.prevent="handleSubmit" class="space-y-8">
       <!-- Basic Info -->
-      <div class="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-border-light">
-        <h3 class="font-serif text-lg font-semibold mb-5 text-graphite">Informações básicas</h3>
+      <div class="p-6 bg-white border shadow-sm rounded-3xl md:p-8 border-border-light">
+        <h3 class="mb-5 font-serif text-lg font-semibold text-graphite">Informações básicas</h3>
         <div class="space-y-5">
           <div>
             <label class="block text-sm font-medium mb-1.5 text-graphite">Título da receita *</label>
@@ -35,7 +35,7 @@
             <p v-if="fieldError('description')" class="mt-1 text-xs text-error">{{ fieldError('description') }}</p>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
             <div>
               <label class="block text-sm font-medium mb-1.5 text-graphite">Categoria *</label>
               <select v-model="form.category"
@@ -61,73 +61,73 @@
             <div>
               <label class="block text-sm font-medium mb-1.5 text-graphite">Tempo de preparo (min)</label>
               <input v-model.number="form.prep_time" type="number" min="1"
-                class="w-full px-4 py-3 rounded-xl border border-border-light focus:border-olive focus:ring-2 focus:ring-olive/20 outline-none transition">
+                class="w-full px-4 py-3 transition border outline-none rounded-xl border-border-light focus:border-olive focus:ring-2 focus:ring-olive/20">
             </div>
             <div>
               <label class="block text-sm font-medium mb-1.5 text-graphite">Porções</label>
               <input v-model.number="form.servings" type="number" min="1"
-                class="w-full px-4 py-3 rounded-xl border border-border-light focus:border-olive focus:ring-2 focus:ring-olive/20 outline-none transition">
+                class="w-full px-4 py-3 transition border outline-none rounded-xl border-border-light focus:border-olive focus:ring-2 focus:ring-olive/20">
             </div>
           </div>
 
-          <div>
+          <!-- <div>
             <label class="block text-sm font-medium mb-1.5 text-graphite">Imagem da receita</label>
             <div class="flex items-center gap-4">
-              <div v-if="imagePreview" class="w-24 h-24 rounded-2xl overflow-hidden flex-shrink-0">
-                <img :src="imagePreview" class="w-full h-full object-cover" alt="preview">
+              <div v-if="imagePreview" class="flex-shrink-0 w-24 h-24 overflow-hidden rounded-2xl">
+                <img :src="imagePreview" class="object-cover w-full h-full" alt="preview">
               </div>
               <label class="flex-1 cursor-pointer">
-                <div class="w-full px-4 py-8 rounded-xl border-2 border-dashed border-border-light hover:border-olive transition text-center">
+                <div class="w-full px-4 py-8 text-center transition border-2 border-dashed rounded-xl border-border-light hover:border-olive">
                   <span class="text-sm text-sage">Clique para fazer upload de uma imagem</span>
                 </div>
                 <input type="file" accept="image/*" class="hidden" @change="handleImageUpload">
               </label>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
 
       <!-- Ingredients -->
-      <div class="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-border-light">
-        <h3 class="font-serif text-lg font-semibold mb-5 text-graphite">Ingredientes *</h3>
+      <div class="p-6 bg-white border shadow-sm rounded-3xl md:p-8 border-border-light">
+        <h3 class="mb-5 font-serif text-lg font-semibold text-graphite">Ingredientes *</h3>
         <div class="space-y-3">
           <div v-for="(ing, i) in form.ingredients" :key="i" class="flex gap-2">
             <input v-model="form.ingredients[i]" type="text" placeholder="Ex: 2 xícaras de farinha"
               :class="['flex-1 px-4 py-3 rounded-xl border focus:ring-2 focus:ring-olive/20 outline-none transition', fieldError('ingredients') ? 'border-error focus:border-error' : 'border-border-light focus:border-olive']"
               @input="clearFieldError('ingredients')">
             <button type="button" @click="removeIngredient(i)" v-if="form.ingredients.length > 1"
-              class="px-3 py-2 rounded-xl border border-border-light text-sage hover:border-error hover:text-error transition">
+              class="px-3 py-2 transition border rounded-xl border-border-light text-sage hover:border-error hover:text-error">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
             </button>
           </div>
         </div>
         <p v-if="fieldError('ingredients')" class="mt-2 text-xs text-error">{{ fieldError('ingredients') }}</p>
         <button type="button" @click="addIngredient"
-          class="mt-4 inline-flex items-center gap-2 text-sm text-olive font-medium hover:text-olive-dark transition">
-          <span class="w-6 h-6 rounded-full bg-olive/10 flex items-center justify-center text-olive text-xs">+</span>
+          class="inline-flex items-center gap-2 mt-4 text-sm font-medium transition text-olive hover:text-olive-dark">
+          <span class="flex items-center justify-center w-6 h-6 text-xs rounded-full bg-olive/10 text-olive">+</span>
           Adicionar ingrediente
         </button>
       </div>
 
       <!-- Steps -->
-      <div class="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-border-light">
-        <h3 class="font-serif text-lg font-semibold mb-5 text-graphite">Modo de preparo *</h3>
+      <div class="p-6 bg-white border shadow-sm rounded-3xl md:p-8 border-border-light">
+        <h3 class="mb-5 font-serif text-lg font-semibold text-graphite">Modo de preparo *</h3>
         <div class="space-y-3">
           <div v-for="(step, i) in form.instructions" :key="i" class="flex gap-3">
-            <div class="w-8 h-8 rounded-full bg-mint text-olive flex items-center justify-center text-sm font-bold flex-shrink-0 mt-1">{{ i + 1 }}</div>
+            <div class="flex items-center justify-center flex-shrink-0 w-8 h-8 mt-1 text-sm font-bold rounded-full bg-mint text-olive">{{ i + 1 }}</div>
             <textarea v-model="form.instructions[i]" rows="2" placeholder="Descreva o passo..."
               :class="['flex-1 px-4 py-3 rounded-xl border focus:ring-2 focus:ring-olive/20 outline-none transition resize-none', fieldError('instructions') ? 'border-error focus:border-error' : 'border-border-light focus:border-olive']"
               @input="clearFieldError('instructions')"></textarea>
             <button type="button" @click="removeStep(i)" v-if="form.instructions.length > 1"
-              class="px-3 py-2 rounded-xl border border-border-light text-sage hover:border-error hover:text-error transition self-start">
+              class="self-start px-3 py-2 transition border rounded-xl border-border-light text-sage hover:border-error hover:text-error">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
             </button>
           </div>
         </div>
         <p v-if="fieldError('instructions')" class="mt-2 text-xs text-error">{{ fieldError('instructions') }}</p>
         <button type="button" @click="addStep"
-          class="mt-4 inline-flex items-center gap-2 text-sm text-olive font-medium hover:text-olive-dark transition">
-          <span class="w-6 h-6 rounded-full bg-olive/10 flex items-center justify-center text-olive text-xs">+</span>
+          class="inline-flex items-center gap-2 mt-4 text-sm font-medium transition text-olive hover:text-olive-dark">
+          <span class="flex items-center justify-center w-6 h-6 text-xs rounded-full bg-olive/10 text-olive">+</span>
           Adicionar passo
         </button>
       </div>
@@ -136,7 +136,7 @@
       <div class="flex gap-4">
         <button type="submit" :disabled="saving"
           class="flex-1 py-3.5 rounded-full bg-olive text-white font-medium hover:bg-olive-dark hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-60 flex items-center justify-center gap-2">
-          <div v-if="saving" class="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+          <div v-if="saving" class="w-5 h-5 border-2 rounded-full border-white/30 border-t-white animate-spin"></div>
           <span>{{ saving ? 'Salvando...' : (isEditing ? 'Salvar alterações' : 'Salvar receita') }}</span>
         </button>
         <button type="button" @click="$router.back()"
