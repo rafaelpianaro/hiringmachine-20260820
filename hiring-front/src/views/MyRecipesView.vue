@@ -204,7 +204,7 @@ async function executeDelete() {
 }
 
 function onRecipeDeleted() {
-  recipeStore.fetchMyRecipes()
+  // Deletion is already applied locally in the store; no refetch needed.
 }
 </script>
 

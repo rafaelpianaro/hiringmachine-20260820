@@ -95,8 +95,10 @@ export const useRecipeStore = defineStore('recipe', () => {
   }
 
   async function deleteRecipe(id) {
+    const recipeId = String(id)
     await recipeService.deleteRecipe(id)
-    recipes.value = recipes.value.filter(r => r.id !== id)
+    recipes.value = recipes.value.filter(r => String(r.id) !== recipeId)
+    myRecipes.value = myRecipes.value.filter(r => String(r.id) !== recipeId)
   }
 
   async function rateRecipe(recipeId, stars) {

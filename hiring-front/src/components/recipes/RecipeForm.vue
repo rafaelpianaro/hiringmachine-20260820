@@ -177,6 +177,21 @@ const form = reactive({
 
 const isEditing = ref(false)
 
+function normalizeDifficultyValue(value) {
+  if (!value) return ''
+  const normalized = String(value).trim().toLowerCase()
+  if (['easy', 'medium', 'hard'].includes(normalized)) return normalized
+  const map = {
+    facil: 'easy',
+    fácil: 'easy',
+    medio: 'medium',
+    médio: 'medium',
+    dificil: 'hard',
+    difícil: 'hard'
+  }
+  return map[normalized] || ''
+}
+
 watch(() => props.initialData, (val) => {
   if (val) {
     isEditing.value = true
@@ -185,7 +200,7 @@ watch(() => props.initialData, (val) => {
     form.category = val.category || ''
     form.prep_time = val.prepTimeMinutes || val.prep_time || 30
     form.servings = val.servings || 4
-    form.difficulty = val.difficulty || ''
+    form.difficulty = normalizeDifficultyValue(val.difficultyValue ?? val.difficulty) || normalizeDifficultyValue(val.difficulty) || ''
     form.image = val.image || val.coverImage || ''
     form.ingredients = val.ingredients?.length ? [...val.ingredients] : ['']
     form.instructions = (val.steps || val.instructions || []).length ? [...(val.steps || val.instructions)] : ['']

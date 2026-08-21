@@ -90,7 +90,26 @@ const DIFFICULTY_MAP = {
   hard: 'Difícil'
 }
 
+function normalizeDifficultyValue(value) {
+  if (!value) return ''
+  const normalized = String(value).trim().toLowerCase()
+  if (['easy', 'medium', 'hard'].includes(normalized)) return normalized
+
+  const map = {
+    facil: 'easy',
+    fácil: 'easy',
+    medio: 'medium',
+    médio: 'medium',
+    dificil: 'hard',
+    difícil: 'hard'
+  }
+
+  return map[normalized] || normalized
+}
+
 function mapRecipe(raw) {
+  const normalizedDifficulty = normalizeDifficultyValue(raw.difficulty)
+
   return {
     id: String(raw.id),
     userId: raw.user_id,
@@ -102,7 +121,8 @@ function mapRecipe(raw) {
     prepTimeMinutes: raw.prep_time || 0,
     cookTimeMinutes: raw.cook_time || 0,
     servings: raw.servings,
-    difficulty: DIFFICULTY_MAP[raw.difficulty] || raw.difficulty,
+    difficulty: DIFFICULTY_MAP[normalizedDifficulty] || normalizedDifficulty,
+    difficultyValue: normalizedDifficulty,
     ingredients: raw.ingredients || [],
     steps: raw.instructions || [],
     authorId: raw.user_id,

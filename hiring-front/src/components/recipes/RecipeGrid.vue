@@ -137,7 +137,7 @@ async function handleRate(recipeId, stars) {
 }
 
 function onRecipeDeleted() {
-  recipeStore.fetchRecipes()
+  // Deletion is already applied locally in the store; no refetch needed.
 }
 </script>
 
