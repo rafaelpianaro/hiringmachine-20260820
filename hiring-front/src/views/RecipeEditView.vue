@@ -12,12 +12,14 @@
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useRecipeStore } from '@/stores/recipeStore'
+import { useUserStore } from '@/stores/userStore'
 import { useToastStore } from '@/stores/toastStore'
 import RecipeForm from '@/components/recipes/RecipeForm.vue'
 
 const route = useRoute()
 const router = useRouter()
 const recipeStore = useRecipeStore()
+const userStore = useUserStore()
 const toast = useToastStore()
 
 const existingRecipe = ref(null)
@@ -32,6 +34,14 @@ onMounted(async () => {
     isEditing.value = true
     try {
       const recipe = await recipeStore.getRecipe(route.params.id)
+
+      // Check if the logged-in user is the owner of the recipe
+      if (!userStore.currentUser || String(recipe.authorId) !== String(userStore.currentUser.id)) {
+        toast.show('Você não tem permissão para editar esta receita.', 'error')
+        router.push('/minhas-receitas')
+        return
+      }
+
       existingRecipe.value = recipe
     } catch (e) {
       toast.show(e.message, 'error')
