@@ -1,5 +1,11 @@
 <template>
-  <RecipeForm :initial-data="existingRecipe" @submit="handleSubmit" />
+  <RecipeForm
+    :initial-data="existingRecipe"
+    :field-errors="recipeStore.fieldErrors"
+    :global-error="recipeStore.error"
+    @submit="handleSubmit"
+    @clear-error="clearFieldError"
+  />
 </template>
 
 <script setup>
@@ -18,6 +24,10 @@ const existingRecipe = ref(null)
 const isEditing = ref(false)
 
 onMounted(async () => {
+  // Limpar erros anteriores ao entrar na página
+  recipeStore.fieldErrors = null
+  recipeStore.error = null
+
   if (route.params.id) {
     isEditing.value = true
     try {
@@ -30,6 +40,15 @@ onMounted(async () => {
   }
 })
 
+function clearFieldError(field) {
+  const fe = recipeStore.fieldErrors
+  if (fe && fe[field]) {
+    const { [field]: _, ...rest } = fe
+    recipeStore.fieldErrors = { ...rest }
+  }
+  if (recipeStore.error) recipeStore.error = null
+}
+
 async function handleSubmit(formData) {
   try {
     if (isEditing.value) {
@@ -41,7 +60,7 @@ async function handleSubmit(formData) {
     }
     router.push('/minhas-receitas')
   } catch (e) {
-    toast.show(e.message, 'error')
+    // erros já são exibidos pelo store
   }
 }
 </script>

@@ -5,8 +5,10 @@ import { useUserStore } from './userStore'
 
 export const useRecipeStore = defineStore('recipe', () => {
   const recipes = ref([])
+  const myRecipes = ref([])
   const loading = ref(false)
   const error = ref(null)
+  const fieldErrors = ref(null)
   const searchQuery = ref('')
   const activeCategory = ref('Todas')
 
@@ -32,17 +34,23 @@ export const useRecipeStore = defineStore('recipe', () => {
     return result
   })
 
-  const myRecipes = computed(() => {
-    const userStore = useUserStore()
-    if (!userStore.currentUser) return []
-    return recipes.value.filter(r => r.authorId === userStore.currentUser.id)
-  })
-
   async function fetchRecipes() {
     loading.value = true
     error.value = null
     try {
       recipes.value = await recipeService.getAllRecipes()
+    } catch (e) {
+      error.value = e.message
+    } finally {
+      loading.value = false
+    }
+  }
+
+  async function fetchMyRecipes() {
+    loading.value = true
+    error.value = null
+    try {
+      myRecipes.value = await recipeService.getMyRecipes()
     } catch (e) {
       error.value = e.message
     } finally {
@@ -60,16 +68,30 @@ export const useRecipeStore = defineStore('recipe', () => {
   }
 
   async function createRecipe(formData) {
-    const newRecipe = await recipeService.createRecipe(formData)
-    recipes.value.unshift(newRecipe)
-    return newRecipe
+    fieldErrors.value = null
+    try {
+      const newRecipe = await recipeService.createRecipe(formData)
+      recipes.value.unshift(newRecipe)
+      return newRecipe
+    } catch (e) {
+      error.value = e.message
+      fieldErrors.value = e.fieldErrors || null
+      throw e
+    }
   }
 
   async function updateRecipe(id, formData) {
-    const updated = await recipeService.updateRecipe(id, formData)
-    const idx = recipes.value.findIndex(r => r.id === id)
-    if (idx !== -1) recipes.value[idx] = updated
-    return updated
+    fieldErrors.value = null
+    try {
+      const updated = await recipeService.updateRecipe(id, formData)
+      const idx = recipes.value.findIndex(r => r.id === id)
+      if (idx !== -1) recipes.value[idx] = updated
+      return updated
+    } catch (e) {
+      error.value = e.message
+      fieldErrors.value = e.fieldErrors || null
+      throw e
+    }
   }
 
   async function deleteRecipe(id) {
@@ -88,9 +110,9 @@ export const useRecipeStore = defineStore('recipe', () => {
   function setSearch(q) { searchQuery.value = q }
 
   return {
-    recipes, loading, error, searchQuery, activeCategory, categories,
+    recipes, loading, error, fieldErrors, searchQuery, activeCategory, categories,
     filteredRecipes, myRecipes,
-    fetchRecipes, getRecipe, createRecipe, updateRecipe, deleteRecipe, rateRecipe,
+    fetchRecipes, fetchMyRecipes, getRecipe, createRecipe, updateRecipe, deleteRecipe, rateRecipe,
     setCategory, setSearch
   }
 })

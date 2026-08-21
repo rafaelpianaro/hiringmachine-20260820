@@ -147,7 +147,7 @@ const showDeleteModal = ref(false)
 const deleteTargetId = ref(null)
 
 onMounted(() => {
-  recipeStore.fetchRecipes()
+  recipeStore.fetchMyRecipes()
 })
 
 const filteredMyRecipes = computed(() => {
@@ -197,7 +197,7 @@ async function executeDelete() {
 }
 
 function onRecipeDeleted() {
-  recipeStore.fetchRecipes()
+  recipeStore.fetchMyRecipes()
 }
 </script>
 

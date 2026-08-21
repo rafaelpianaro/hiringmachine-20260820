@@ -13,7 +13,7 @@ const CATEGORY_IMAGES = {
     'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800&h=600&fit=crop',
     'https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=800&h=600&fit=crop',
     'https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=800&h=600&fit=crop',
-    'https://images.unsplash.com/photo-1519869325930-281384f1c95d?w=800&h=600&fit=crop'
+    'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&h=600&fit=crop'
   ],
   'Saladas': [
     'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&h=600&fit=crop',
@@ -30,9 +30,9 @@ const CATEGORY_IMAGES = {
   ],
   'Pães': [
     'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&h=600&fit=crop',
-    'https://images.unsplash.com/photo-1549931319-a545753467c8?w=800&h=600&fit=crop',
-    'https://images.unsplash.com/photo-1586444248879-bc604cbd555a?w=800&h=600&fit=crop',
-    'https://images.unsplash.com/photo-1585478259715-876acc5be8fc?w=800&h=600&fit=crop'
+    'https://images.unsplash.com/photo-1574085733277-851d9d856a3a?w=800&h=600&fit=crop',
+    'https://images.unsplash.com/photo-1568254183919-78a4f43a2877?w=800&h=600&fit=crop',
+    'https://images.unsplash.com/photo-1594818379496-da1e345b0ded?w=800&h=600&fit=crop'
   ],
   'Sobremesas': [
     'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=800&h=600&fit=crop',
@@ -42,7 +42,7 @@ const CATEGORY_IMAGES = {
   'Sopas': [
     'https://images.unsplash.com/photo-1476718406336-bb5a9690ee2a?w=800&h=600&fit=crop',
     'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=800&h=600&fit=crop',
-    'https://images.unsplash.com/photo-1603105037880-880cd4571c94?w=800&h=600&fit=crop'
+    'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=800&h=600&fit=crop'
   ],
   'Massas': [
     'https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=800&h=600&fit=crop',
@@ -110,13 +110,12 @@ function mapRecipe(raw) {
     authorName: raw.user?.name || 'Desconhecido',
     ratings: raw.ratings || [],
     isPublished: raw.is_published,
-    createdAt: raw.created_at,
-    updatedAt: raw.updated_at
+    createdAt: raw.created_at_formatted || raw.created_at,
+    updatedAt: raw.updated_at_formatted || raw.updated_at
   }
 }
 
 function extractData(response) {
-  console.log('extractData', response)
   if (response?.data?.data) return response.data.data.map(mapRecipe)
   if (Array.isArray(response?.data)) return response.data.map(mapRecipe)
   if (Array.isArray(response)) return response.map(mapRecipe)
@@ -130,18 +129,23 @@ function extractSingle(response) {
 
 async function apiFetch(path, options = {}) {
   const url = `${API_BASE}${path}`
+  const savedToken = localStorage.getItem('recepies_token')
+  const headers = {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
+  if (savedToken) headers['Authorization'] = `Bearer ${savedToken}`
   const res = await fetch(url, {
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers
-    },
+    headers,
     ...options
   })
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({ message: res.statusText }))
-    throw new Error(err.message || `Erro ${res.status}`)
+  const data = await res.json().catch(() => null)
+  if (!res.ok || data?.errors) {
+    const error = new Error(data?.message || `Erro ${res.status}`)
+    error.fieldErrors = data?.errors || {}
+    throw error
   }
-  return res.json()
+  return data
 }
 
 export const recipeService = {
@@ -165,8 +169,8 @@ export const recipeService = {
     return extractData(data)
   },
 
-  async getMyRecipes(userId) {
-    const data = await apiFetch(`/recipes?authorId=${encodeURIComponent(userId)}`)
+  async getMyRecipes() {
+    const data = await apiFetch('/recipes/my-recipes')
     return extractData(data)
   },
 
