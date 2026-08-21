@@ -20,6 +20,15 @@ class RecipeTest extends TestCase
     }
     public function test_user_can_list_recipes()
     {
+        $user = User::where('email', 'lucas.costa@email.com')->first();
+        $token = JWTAuth::fromUser($user);
+        $recipe = Recipe::first();
+
+        $this->withHeader('Authorization', 'Bearer ' . $token)
+            ->postJson("/api/v1/recipes/{$recipe->id}/ratings", [
+                'stars' => 5,
+            ]);
+
         $response = $this->getJson('/api/v1/recipes');
 
         $response->assertStatus(200)
@@ -27,10 +36,11 @@ class RecipeTest extends TestCase
                 'status',
                 'data' => [
                     'data' => [
-                        '*' => ['id', 'title', 'description', 'ingredients', 'instructions'],
+                        '*' => ['id', 'title', 'description', 'ingredients', 'instructions', 'ratings'],
                     ],
                 ],
-            ]);
+            ])
+            ->assertJsonPath('data.data.0.ratings.0.stars', 5);
     }
     public function test_user_can_get_recipe_by_id()
     {

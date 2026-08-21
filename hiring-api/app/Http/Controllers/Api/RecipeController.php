@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Actions\RecipeList;
+use App\Actions\RecipeListByCategory;
+use App\Actions\RecipeListByDifficulty;
 use App\Actions\RecipeRate;
 use App\Http\Controllers\Controller;
 use App\Models\Recipe;
@@ -18,41 +21,7 @@ class RecipeController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Recipe::with('user:id,name');
-
-        // Filter by published status
-        if ($request->has('published')) {
-            $query->where('is_published', $request->boolean('published'));
-        } else {
-            $query->published();
-        }
-
-        // Filter by category
-        if ($request->has('category')) {
-            $query->where('category', $request->category);
-        }
-
-        // Filter by difficulty
-        if ($request->has('difficulty')) {
-            $query->where('difficulty', $request->difficulty);
-        }
-
-        // Search by title or description
-        if ($request->has('search')) {
-            $search = $request->search;
-            $query->where(function ($q) use ($search) {
-                $q->where('title', 'like', '%' . $search . '%')
-                  ->orWhere('description', 'like', '%' . $search . '%');
-            });
-        }
-
-        // Filter by user (my recipes)
-        if ($request->has('my_recipes') && $request->boolean('my_recipes')) {
-            $query->where('user_id', Auth::id());
-        }
-
-        $recipes = $query->orderBy('created_at', 'desc')
-            ->paginate($request->get('per_page', 15));
+        $recipes = (new RecipeList)->handle($request);
 
         return $this->successResponse($recipes);
     }
@@ -92,7 +61,7 @@ class RecipeController extends Controller
      */
     public function show(Recipe $recipe)
     {
-        $recipe->load(['user:id,name', 'comments' => function ($query) {
+        $recipe->load(['user:id,name', 'ratings.user:id,name', 'comments' => function ($query) {
             $query->with('user:id,name')->latest();
         }]);
 
@@ -153,11 +122,7 @@ class RecipeController extends Controller
      */
     public function byCategory(Request $request, string $category)
     {
-        $recipes = Recipe::published()
-            ->where('category', $category)
-            ->with('user:id,name')
-            ->orderBy('created_at', 'desc')
-            ->paginate($request->get('per_page', 15));
+        $recipes = (new RecipeListByCategory)->handle($request, $category);
 
         return $this->successResponse($recipes);
     }
@@ -167,11 +132,7 @@ class RecipeController extends Controller
      */
     public function byDifficulty(Request $request, string $difficulty)
     {
-        $recipes = Recipe::published()
-            ->where('difficulty', $difficulty)
-            ->with('user:id,name')
-            ->orderBy('created_at', 'desc')
-            ->paginate($request->get('per_page', 15));
+        $recipes = (new RecipeListByDifficulty)->handle($request, $difficulty);
 
         return $this->successResponse($recipes);
     }
@@ -181,10 +142,7 @@ class RecipeController extends Controller
      */
     public function myRecipes(Request $request)
     {
-        $recipes = Auth::user()->recipes()
-            ->withCount('comments')
-            ->orderBy('created_at', 'desc')
-            ->paginate($request->get('per_page', 15));
+        $recipes = (new RecipeList)->handle($request, true);
 
         return $this->successResponse($recipes);
     }
