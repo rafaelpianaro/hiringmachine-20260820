@@ -2,7 +2,7 @@
   <Teleport to="body">
     <Transition name="slide-up">
       <div v-if="toast.visible"
-        :class="['fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] px-6 py-3 rounded-full shadow-lg text-sm font-medium flex items-center gap-2 transition-all whitespace-nowrap',
+        :class="['fixed top-6 left-1/2 -translate-x-1/2 z-[200] px-6 py-3 rounded-full shadow-lg text-sm font-medium flex items-center gap-2 transition-all whitespace-nowrap',
           toast.type === 'error' ? 'bg-error text-white' : 'bg-graphite text-white']">
         <span v-if="toast.type === 'success'">✓</span>
         <span v-else>!</span>
@@ -23,6 +23,6 @@ const toast = useToastStore()
 }
 .slide-up-enter-from, .slide-up-leave-to {
   opacity: 0;
-  transform: translate(-50%, 20px);
+  transform: translate(-50%, -20px);
 }
 </style>

@@ -12,7 +12,7 @@ export const useToastStore = defineStore('toast', () => {
     type.value = t
     visible.value = true
     if (timeout) clearTimeout(timeout)
-    timeout = setTimeout(() => { visible.value = false }, 3000)
+    timeout = setTimeout(() => { visible.value = false }, 5000)
   }
 
   return { message, type, visible, show }
