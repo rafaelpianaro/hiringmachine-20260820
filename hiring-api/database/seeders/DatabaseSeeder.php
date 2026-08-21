@@ -44,18 +44,6 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->createUser([
-            'name' => 'João Pedro',
-            'email' => 'joao.pedro@culinaria.com',
-            'password' => Hash::make('password'),
-            'role' => 'user',
-            'company' => 'Sabor & Arte',
-            'position' => 'Confeiteiro',
-            'phone' => '+55 11 99999-2222',
-            'email_verified_at' => now(),
-            'is_active' => true,
-        ]);
-
-        $this->createUser([
             'name' => 'Ana Souza',
             'email' => 'ana.souza@email.com',
             'password' => Hash::make('password'),
@@ -66,38 +54,50 @@ class DatabaseSeeder extends Seeder
             'is_active' => true,
         ]);
 
-        $this->createUser([
-            'name' => 'Carlos Lima',
-            'email' => 'carlos.lima@email.com',
-            'password' => Hash::make('password'),
-            'role' => 'user',
-            'phone' => '+55 11 99999-4444',
-            'position' => 'Amante da Culinária',
-            'email_verified_at' => now(),
-            'is_active' => true,
-        ]);
+        // $this->createUser([
+        //     'name' => 'João Pedro',
+        //     'email' => 'joao.pedro@culinaria.com',
+        //     'password' => Hash::make('password'),
+        //     'role' => 'user',
+        //     'company' => 'Sabor & Arte',
+        //     'position' => 'Confeiteiro',
+        //     'phone' => '+55 11 99999-2222',
+        //     'email_verified_at' => now(),
+        //     'is_active' => true,
+        // ]);
 
-        $this->createUser([
-            'name' => 'Fernanda Rocha',
-            'email' => 'fernanda.rocha@email.com',
-            'password' => Hash::make('password'),
-            'role' => 'user',
-            'phone' => '+55 11 99999-5555',
-            'position' => 'Nutricionista',
-            'email_verified_at' => now(),
-            'is_active' => true,
-        ]);
+        // $this->createUser([
+        //     'name' => 'Carlos Lima',
+        //     'email' => 'carlos.lima@email.com',
+        //     'password' => Hash::make('password'),
+        //     'role' => 'user',
+        //     'phone' => '+55 11 99999-4444',
+        //     'position' => 'Amante da Culinária',
+        //     'email_verified_at' => now(),
+        //     'is_active' => true,
+        // ]);
 
-        $this->createUser([
-            'name' => 'Lucas Costa',
-            'email' => 'lucas.costa@email.com',
-            'password' => Hash::make('password'),
-            'role' => 'user',
-            'phone' => '+55 11 99999-6666',
-            'position' => 'Aprendiz de Cozinha',
-            'email_verified_at' => now(),
-            'is_active' => true,
-        ]);
+        // $this->createUser([
+        //     'name' => 'Fernanda Rocha',
+        //     'email' => 'fernanda.rocha@email.com',
+        //     'password' => Hash::make('password'),
+        //     'role' => 'user',
+        //     'phone' => '+55 11 99999-5555',
+        //     'position' => 'Nutricionista',
+        //     'email_verified_at' => now(),
+        //     'is_active' => true,
+        // ]);
+
+        // $this->createUser([
+        //     'name' => 'Lucas Costa',
+        //     'email' => 'lucas.costa@email.com',
+        //     'password' => Hash::make('password'),
+        //     'role' => 'user',
+        //     'phone' => '+55 11 99999-6666',
+        //     'position' => 'Aprendiz de Cozinha',
+        //     'email_verified_at' => now(),
+        //     'is_active' => true,
+        // ]);
     }
 
     private function createUser(array $attributes): User
