@@ -2,7 +2,7 @@
 
 ## 📋 Visão Geral
 
-O **HiringMachine** é uma plataforma fullstack que combina dois domínios distintos em uma única aplicação: um **sistema de vagas de emprego** (hiring) e uma **plataforma de receitas culinárias**. O projeto foi desenvolvido como um desafio técnico, demonstrando competências em desenvolvimento de APIs RESTful, autenticação JWT, testes automatizados e frontend moderno.
+O **HiringMachine** é uma plataforma fullstack focada em receitas culinárias, desenvolvida como desafio técnico para demonstrar competências em desenvolvimento de APIs RESTful, autenticação JWT, testes automatizados e frontend moderno.
 
 ### Stack Tecnológica
 
@@ -43,42 +43,37 @@ O **HiringMachine** é uma plataforma fullstack que combina dois domínios disti
 ```
 hiring-api/                          # Backend Laravel
 ├── app/
-│   ├── Actions/                     # Ações de negócio (Command Pattern)
+│   ├── Actions/                     # Ações de negócio (Action Pattern)
 │   │   ├── UserLogin.php
 │   │   ├── UserCreate.php
 │   │   ├── UserChangePassword.php
 │   │   ├── UserUpdateProfile.php
+│   │   ├── RecipeList.php
+│   │   ├── RecipeListByCategory.php
+│   │   ├── RecipeListByDifficulty.php
 │   │   └── RecipeRate.php
 │   ├── Http/
 │   │   ├── Controllers/Api/         # Controllers RESTful
 │   │   │   ├── AuthController.php
 │   │   │   ├── RecipeController.php
-│   │   │   ├── JobController.php
-│   │   │   ├── ApplicationController.php
 │   │   │   └── CommentController.php
-│   │   ├── Middleware/
-│   │   │   └── CheckRole.php        # Middleware de autorização por role
 │   │   └── Requests/                # Form Requests (validação)
 │   ├── Models/                      # Eloquent Models
 │   │   ├── User.php
 │   │   ├── Recipe.php
 │   │   ├── RecipeRating.php
-│   │   ├── Job.php
-│   │   ├── Application.php
 │   │   └── Comment.php
 │   └── Traits/
 │       └── ApiResponser.php         # Trait para respostas JSON padronizadas
 ├── database/
-│   ├── migrations/                  # 7 migrations
-│   ├── seeders/                     # Dados de teste
+│   ├── migrations/                  # Migrations focadas em recipes + auth
+│   ├── seeders/                     # Dados de teste e receitas
 │   └── database.sqlite              # DB para testes
 ├── routes/
 │   └── api.php                      # Rotas da API
 ├── tests/Feature/                   # Testes de integração
-│   ├── Auth/                        # 5 arquivos de teste
-│   ├── Recipe/                      # 1 arquivo (13 testes)
-│   ├── Job/                         # 1 arquivo (12 testes)
-│   └── Application/                 # 1 arquivo (8 testes)
+│   ├── Auth/                        # Login, registro, refresh, logout, perfil
+│   └── Recipe/                      # Lista, criação, atualização, avaliação, busca
 ├── docker-compose.yml               # 4 serviços
 └── Dockerfile
 
@@ -91,7 +86,7 @@ hiring-front/                        # Frontend Vue.js
 │   │   └── MyRecipesView.vue
 │   ├── components/
 │   │   ├── auth/LoginModal.vue      # Modal de login/registro
-│   │   ├── recipes/                 # 5 componentes
+│   │   ├── recipes/                 # Componentes de receitas
 │   │   │   ├── RecipeCard.vue
 │   │   │   ├── RecipeGrid.vue
 │   │   │   ├── RecipeForm.vue
@@ -123,59 +118,44 @@ hiring-front/                        # Frontend Vue.js
 
 ```
 ┌─────────────┐       ┌─────────────────┐       ┌─────────────┐
-│    Users     │──1:N──│      Jobs       │──1:N──│ Applications │
-│             │       │                │       │             │
-│ id          │       │ id             │       │ id          │
-│ name        │       │ user_id (FK)   │       │ user_id(FK) │
-│ email       │       │ title          │       │ job_id (FK) │
-│ password    │       │ description    │       │ status      │
-│ role        │       │ salary_min     │       │ cover_letter│
-│ phone       │       │ salary_max     │       │ resume_path │
-│ company     │       │ location       │       │ notes       │
-│ position    │       │ remote         │       │ applied_at  │
-│ avatar      │       │ type           │       └─────────────┘
-│ is_active   │       │ status         │
-└──────┬──────┘       │ company_name   │
-       │              │ deadline       │
-       │              └─────────────────┘
-       │
-       │──1:N──┌─────────────────┐──1:N──┌─────────────┐
-       │       │    Recipes      │       │   Comments   │
-       │       │                │       │             │
-       │       │ id             │       │ id          │
-       │       │ user_id (FK)   │       │ user_id(FK) │
-       │       │ title          │       │ recipe_id   │
-       │       │ description    │       │ content     │
-       │       │ ingredients    │       │ rating      │
-       │       │ instructions   │       └─────────────┘
-       │       │ prep_time      │
-       │       │ cook_time      │       ┌─────────────────┐
-       │       │ servings       │──1:N──│ RecipeRatings   │
-       │       │ difficulty     │       │                 │
-       │       │ category       │       │ id              │
-       │       │ image          │       │ recipe_id (FK)  │
-       │       │ is_published   │       │ user_id (FK)    │
-       │       └─────────────────┘       │ stars (1-5)     │
-       │                                 └─────────────────┘
+│    Users     │──1:N──│    Recipes      │──1:N──│ RecipeRatings │
+│             │       │                 │       │              │
+│ id          │       │ id              │       │ id           │
+│ name        │       │ user_id (FK)    │       │ recipe_id(FK)│
+│ email       │       │ title           │       │ user_id(FK)  │
+│ password    │       │ description     │       │ stars        │
+│ role        │       │ ingredients     │       └──────────────┘
+│ phone       │       │ instructions    │
+│ company     │       │ prep_time       │       ┌─────────────┐
+│ position    │       │ cook_time       │       │   Comments  │
+│ avatar      │       │ servings        │       │             │
+│ is_active   │       │ difficulty      │       │ id          │
+└──────┬──────┘       │ category        │       │ user_id(FK) │
+       │              │ image           │       │ recipe_id   │
+       │              │ is_published    │       │ content     │
+       │              │ created_at      │       │ rating      │
+       │              └─────────────────┘       └─────────────┘
 ```
 
 ### Tabela `users`
-- **Roles**: `admin`, `recruiter`, `candidate`, `user`
+- **Roles**: `admin`, `user`
 - Senhas hasheadas com bcrypt
-- Campo `is_active` para desativação de contas
+- Campo de perfil/ativo mantido para sessão e controle de acesso
 
 ### Tabela `recipes`
 - `ingredients` e `instructions` armazenados como **JSON** (PostgreSQL)
 - `difficulty`: enum (`easy`, `medium`, `hard`)
 - `category`: string livre (Bolos, Carnes, Sobremesas, etc.)
+- `created_by`/`user_id` para autoria da receita
 
 ### Tabela `recipe_ratings`
-- **Constraint único**: `(recipe_id, user_id)` — um usuário só avalia uma receita uma vez
-- `stars`: tiny integer (1-5)
+- **Constraint único**: `(recipe_id, user_id)` — um usuário avalia uma receita no máximo uma vez
+- `stars`: integer (1-5)
+- Média calculada no frontend e no payload da listagem da API
 
-### Tabela `applications`
-- **Constraint único**: `(user_id, job_id)` — impede candidatura duplicada
-- Status: `pending`, `reviewed`, `accepted`, `rejected`
+### Tabela `comments`
+- Comentários e avaliação opcional da receita
+- Relacionados diretamente com `recipes` e `users`
 
 ---
 
@@ -191,17 +171,16 @@ hiring-front/                        # Frontend Vue.js
 │           │    {access_token, user}   │          │
 │           │                           │          │
 │           │  GET /recipes             │          │
-│           │  Authorization: Bearer ▶  │          │
+│           │  Authorization: ******  │          │
 │           │       <token>             │          │
 └──────────┘                            └──────────┘
 ```
 
 ### Rotas Públicas vs Protegidas
 
-**Públicas** (prefixo `/api/hm/` e `/api/v1/`):
+**Públicas** (prefixo `/api/v1/`):
 - `POST /auth/login` — Login
 - `POST /auth/register` — Registro
-- `GET /jobs` — Listar vagas
 - `GET /recipes` — Listar receitas
 - `GET /recipes/{id}` — Detalhe da receita
 - `GET /health` — Health check
@@ -209,20 +188,17 @@ hiring-front/                        # Frontend Vue.js
 **Protegidas** (requer `auth:api` middleware):
 - `POST /auth/logout`, `POST /auth/refresh`, `GET /auth/me`
 - `PUT /auth/profile`, `PUT /auth/password`
-- CRUD completo de vagas, receitas, candidaturas e comentários
+- CRUD da receita
 - `POST /recipes/{id}/ratings` — Avaliar receita
+- CRUD de comentários
 
 ### Regras de Autorização
 
 | Ação | Quem pode fazer |
 |------|-----------------|
-| Criar vaga | Qualquer usuário autenticado |
-| Editar/Excluir vaga | Apenas o criador da vaga |
-| Candidatar-se | Candidatos (não dono da vaga) |
-| Alterar status de candidatura | Apenas o dono da vaga |
 | Criar receita | Qualquer usuário autenticado |
 | Editar/Excluir receita | Apenas o autor da receita |
-| Avaliar receita | Qualquer usuário (exceto o autor) |
+| Avaliar receita | Qualquer usuário autenticado, exceto o autor |
 | Excluir comentário | Autor do comentário ou admin |
 
 ---
@@ -233,7 +209,6 @@ hiring-front/                        # Frontend Vue.js
 Cada operação de negócio complexa é encapsulada em uma classe `Action`:
 
 ```php
-// App/Actions/RecipeRate.php
 final readonly class RecipeRate
 {
     public function handle(Recipe $recipe, int $userId, int $stars): array
@@ -247,7 +222,11 @@ final readonly class RecipeRate
                 ['user_id' => $userId],
                 ['stars' => $stars]
             );
-            // ... retorna payload formatado
+
+            return [
+                'average' => $recipe->fresh()->averageRating(),
+                'count' => $recipe->fresh()->ratings()->count(),
+            ];
         });
     }
 }
@@ -290,7 +269,6 @@ class AuthController extends Controller
 {
     public function login(LoginRequest $request)
     {
-        // Validação já feita pelo LoginRequest
         $user = (new UserLogin)->handle($request->email, $request->password);
     }
 }
@@ -314,7 +292,7 @@ class AuthController extends Controller
 │  - myRecipes (ref)                      │
 │  - filteredRecipes (computed)           │
 │  - fetchRecipes(), createRecipe()       │
-│  - fieldErrors (para validação)         │
+│  - rateRecipe()                         │
 └─────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────┐
@@ -337,130 +315,13 @@ export const recipeService = {
 
 // recipeStore.js — gerenciamento de estado
 export const useRecipeStore = defineStore('recipe', () => {
-  async function createRecipe(formData) {
-    fieldErrors.value = null
-    try {
-      const newRecipe = await recipeService.createRecipe(formData)
-      recipes.value.unshift(newRecipe)
-      return newRecipe
-    } catch (e) {
-      error.value = e.message
-      fieldErrors.value = e.fieldErrors || null
-      throw e
-    }
+  async function rateRecipe(recipeId, stars) {
+    const updated = await recipeService.rateRecipe(recipeId, stars)
+    const index = recipes.value.findIndex(r => r.id === recipeId)
+    if (index >= 0) recipes.value[index] = { ...recipes.value[index], ...updated }
   }
 })
 ```
-
----
-
-## 🧪 Testes
-
-### Estrutura de Testes
-
-```
-tests/Feature/
-├── Auth/
-│   ├── LoginTest.php          (6 testes)
-│   ├── RegisterTest.php       (8 testes)
-│   ├── LogoutTest.php         (3 testes)
-│   ├── RefreshTest.php
-│   └── ProfileTest.php
-├── Recipe/
-│   └── RecipeTest.php         (13 testes)
-├── Job/
-│   └── JobTest.php            (12 testes)
-└── Application/
-    └── ApplicationTest.php    (8 testes)
-```
-
-### Exemplos de Testes
-
-**Teste de Login:**
-```php
-public function test_user_can_login_with_valid_credentials()
-{
-    $response = $this->postJson('/api/v1/auth/login', [
-        'email' => 'lucas.costa@email.com',
-        'password' => 'password',
-    ]);
-
-    $response->assertStatus(200)
-        ->assertJsonStructure([
-            'status', 'data' => [
-                'access_token', 'token_type', 'expires_in',
-                'user' => ['id', 'name', 'email', 'role'],
-            ],
-        ]);
-}
-```
-
-**Teste de Autorização:**
-```php
-public function test_user_cannot_update_other_users_recipe()
-{
-    $user = User::where('email', 'lucas.costa@email.com')->first();
-    $token = JWTAuth::fromUser($user);
-    $recipe = Recipe::where('user_id', '!=', $user->id)->first();
-
-    $response = $this->withHeader('Authorization', "Bearer $token")
-        ->putJson("/api/v1/recipes/{$recipe->id}", [
-            'title' => 'Hacked Recipe',
-        ]);
-
-    $response->assertStatus(403);
-}
-```
-
-**Teste de Regra de Negócio:**
-```php
-public function test_user_cannot_rate_their_own_recipe()
-{
-    $user = User::where('email', 'maria.clara@culinaria.com')->first();
-    $recipe = $user->recipes()->first();
-
-    $response = $this->withHeader('Authorization', "Bearer $token")
-        ->postJson("/api/v1/recipes/{$recipe->id}/ratings", ['stars' => 5]);
-
-    $response->assertStatus(422)
-        ->assertJsonPath('message', 'Você não pode avaliar sua própria receita.');
-}
-```
-
-### Estratégias de Teste
-- **RefreshDatabase**: Cada teste roda com banco limpo
-- **WithFaker**: Dados fake para registros
-- **Seed**: Dados de teste carregados via `DatabaseSeeder`
-- **JWT Auth**: Tokens gerados via `JWTAuth::fromUser()`
-- ** assertions**: Status code, JSON structure, database state
-
----
-
-## 🎨 Design System (Frontend)
-
-### Paleta de Cores Customizada
-
-| Cor | Hex | Uso |
-|-----|-----|-----|
-| `off-white` | `#FDFDF9` | Background principal |
-| `mint` | `#EAF1E4` | Background secundário |
-| `graphite` | `#1F2420` | Texto principal |
-| `sage` | `#5C6B5A` | Texto secundário |
-| `olive` | `#8DB33F` | Cor primária (CTAs) |
-| `terracotta` | `#E07A3E` | Acento |
-| `gold` | `#F2B705` | Estrelas de avaliação |
-| `error` | `#D9534F` | Erros |
-
-### Tipografia
-- **Serif**: Playfair Display (títulos)
-- **Sans**: Inter (corpo do texto)
-
-### Componentes Chave
-- **LoginModal**: Modal com abas (Login/Registro), validação em campo, erros globais
-- **RecipeForm**: Formulário multi-step com validação server-side
-- **StarRating**: Componente reutilizável (readonly/interactive)
-- **RecipeCard**: Card com hover effects, imagem por categoria
-- **RecipeDetailModal**: Modal de detalhes com checkbox de ingredientes
 
 ---
 
@@ -472,7 +333,7 @@ public function test_user_cannot_rate_their_own_recipe()
 | `POST` | `/auth/login` | Login com JWT |
 | `POST` | `/auth/register` | Novo usuário |
 | `POST` | `/auth/logout` | Invalidar token |
-| `POST` | `/auth.refresh` | Renovar token |
+| `POST` | `/auth/refresh` | Renovar token |
 | `GET` | `/auth/me` | Perfil do usuário |
 | `PUT` | `/auth/profile` | Atualizar perfil |
 | `PUT` | `/auth/password` | Alterar senha |
@@ -480,42 +341,23 @@ public function test_user_cannot_rate_their_own_recipe()
 ### Recipes (8 endpoints)
 | Método | Rota | Descrição |
 |--------|------|-----------|
-| `GET` | `/recipes` | Listar (com filtros) |
-| `GET` | `/recipes/{id}` | Detalhe |
+| `GET` | `/recipes` | Listar receitas (com filtros) |
+| `GET` | `/recipes/{id}` | Detalhe da receita |
 | `GET` | `/recipes/category/{cat}` | Por categoria |
 | `GET` | `/recipes/difficulty/{d}` | Por dificuldade |
-| `POST` | `/recipes` | Criar (auth) |
-| `PUT` | `/recipes/{id}` | Atualizar (auth) |
-| `DELETE` | `/recipes/{id}` | Excluir (auth) |
-| `POST` | `/recipes/{id}/ratings` | Avaliar (auth) |
+| `POST` | `/recipes` | Criar receita (auth) |
+| `PUT` | `/recipes/{id}` | Atualizar receita (auth) |
+| `DELETE` | `/recipes/{id}` | Excluir receita (auth) |
+| `POST` | `/recipes/{id}/ratings` | Avaliar receita (auth) |
 | `GET` | `/recipes/my-recipes` | Minhas receitas |
-
-### Jobs (6 endpoints)
-| Método | Rota | Descrição |
-|--------|------|-----------|
-| `GET` | `/jobs` | Listar vagas ativas |
-| `GET` | `/jobs/{id}` | Detalhe da vaga |
-| `POST` | `/jobs` | Criar vaga (auth) |
-| `PUT` | `/jobs/{id}` | Atualizar (auth) |
-| `DELETE` | `/jobs/{id}` | Excluir (auth) |
-| `GET` | `/jobs/my-jobs` | Minhas vagas |
-
-### Applications (5 endpoints)
-| Método | Rota | Descrição |
-|--------|------|-----------|
-| `GET` | `/applications` | Minhas candidaturas |
-| `POST` | `/applications` | Candidatar-se |
-| `GET` | `/applications/{id}` | Detalhe |
-| `PUT` | `/applications/{id}/status` | Atualizar status |
-| `DELETE` | `/applications/{id}` | Cancelar candidatura |
 
 ### Comments (4 endpoints)
 | Método | Rota | Descrição |
 |--------|------|-----------|
-| `GET` | `/recipes/{id}/comments` | Listar |
-| `POST` | `/recipes/{id}/comments` | Criar |
-| `PUT` | `/comments/{id}` | Atualizar |
-| `DELETE` | `/comments/{id}` | Excluir |
+| `GET` | `/recipes/{id}/comments` | Listar comentários |
+| `POST` | `/recipes/{id}/comments` | Criar comentário |
+| `PUT` | `/comments/{id}` | Atualizar comentário |
+| `DELETE` | `/comments/{id}` | Excluir comentário |
 
 ---
 
@@ -569,9 +411,9 @@ docker-compose logs -f
 **Escolha**: Pinia
 **Justificativa**: API mais simples, TypeScript-friendly, recomendado pelo time Vue.js.
 
-### 5. Dual Routes (/api/v1/ e /api/hm/)
-**Escolha**: Duas versões de prefixo
-**Justificativa**: `/api/v1/` para o frontend principal, `/api/hm/` como alias (HiringMachine).
+### 5. Prefixo Único da API (/api/v1/)
+**Escolha**: Manter apenas `/api/v1/`
+**Justificativa**: URL consistente, menos ambiguidade, documentação mais limpa e frontend mais previsível.
 
 ---
 
@@ -580,27 +422,24 @@ docker-compose logs -f
 | Usuário | Email | Role | Senha |
 |---------|-------|------|-------|
 | Rafael Pianaro | rafaelpianaro@mail.com | admin | password |
-| Maria Clara | maria.clara@culinaria.com | recruiter | password |
-| João Pedro | joao.pedro@culinaria.com | recruiter | password |
 | Ana Souza | ana.souza@email.com | user | password |
 | Carlos Lima | carlos.lima@email.com | user | password |
 | Fernanda Rocha | fernanda.rocha@email.com | user | password |
-| Lucas Costa | lucas.costa@email.com | candidate | password |
 
-O seed inclui também receitas, vagas e candidaturas de exemplo.
+O seed inclui receitas, comentários, avaliações e perfis de usuários para validar listagem, filtros e rating.
 
 ---
 
 ## 🔑 Pontos Fortes para Destacar em Entrevista
 
-1. **Testes Automatizados**: +39 testes de integração cobrindo auth, receitas, vagas e candidaturas
-2. **Segurança**: Validação server-side, autorização por ownership, prevenção de auto-avaliação
-3. **Design Patterns**: Actions, Traits, Service Layer, Repository Pattern
-4. **Frontend Moderno**: Composition API, Pinia, Tailwind CSS, transições suaves
-5. **Docker**: Ambiente reproduzível com 4 serviços (app, postgres, redis, mailpit)
-6. **API RESTful**: Padronização de respostas, paginação, filtros, busca
-7. **Validação Completa**: Backend + Frontend com error handling granular
-8. **Persistência de Sessão**: localStorage com JWT para experiência fluida
+1. **Testes Automatizados**: cobertura de auth, receitas, busca, comentários e ratings
+2. **Segurança**: validação server-side, autorização por ownership, proteção contra auto-avaliação
+3. **Design Patterns**: Actions, Traits, Service Layer, Form Requests
+4. **Frontend Moderno**: Composition API, Pinia, Tailwind CSS, modal e grid responsivos
+5. **Docker**: ambiente reproduzível com 4 serviços (app, postgres, redis, mailpit)
+6. **API RESTful**: padronização de respostas, filtros por categoria/dificuldade e payloads enriquecidos
+7. **Validação Completa**: backend + frontend com tratamento granular de erros
+8. **Experiência do Usuário**: estrelas, avaliação persistente e sincronização do estado após rate
 
 ---
 
@@ -608,8 +447,8 @@ O seed inclui também receitas, vagas e candidaturas de exemplo.
 
 - [ ] Implementar upload de imagens com S3/Cloudflare R2
 - [ ] Adicionar cache com Redis para consultas frequentes
-- [ ] Implementar fila de jobs para envio de emails
-- [ ] Adicionar rates limiting na API
+- [ ] Implementar fila para envio de emails
+- [ ] Adicionar rate limiting na API
 - [ ] Implementar testes E2E com Playwright
 - [ ] CI/CD com GitHub Actions
 - [ ] Monitoramento com Sentry

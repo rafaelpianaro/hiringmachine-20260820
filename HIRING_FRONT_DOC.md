@@ -257,7 +257,7 @@ function show(msg, t = 'success') {
 
 ```javascript
 // authService.js e recipeService.js
-const API_BASE = import.meta.env.VITE_API_BASE_URL || '/api/hm'
+const API_BASE = import.meta.env.VITE_API_BASE_URL || '/api/v1'
 ```
 
 O Vite faz **proxy** automaticamente:
