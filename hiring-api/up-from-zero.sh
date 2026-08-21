@@ -28,7 +28,7 @@ fi
 # 1. Garante o .env (portas e credenciais ficam sob controle do usuário)
 if [ ! -f .env ]; then
     cp .env.example .env
-    echo "==> .env criado a partir do .env.example"
+    echo "==> .env build from .env.example"
     echo "    Revise as portas (APP_PORT, DB_PORT, REDIS_PORT, etc.) antes de subir."
 fi
 
@@ -56,7 +56,7 @@ for container in "${CONTAINERS[@]}"; do
 done
 
 # 3. Derruba o projeto atual com os volumes (banco, redis, mailpit e playwright zerados)
-echo "==> Derrubando o projeto atual (containers, rede e volumes)..."
+echo "==> Tearing down the current project (containers, network, and volumes)..."
 docker compose down --remove-orphans -v
 
 # 3.1. Remove volumes órfãos de nomes antigos deste projeto (quando o diretório/
@@ -69,7 +69,7 @@ if [ -n "${ORPHAN_VOLUMES}" ]; then
 fi
 
 # 4. Sobe tudo do zero (builda a imagem se necessário)
-echo "==> Subindo os serviços (build + bootstrap: composer, bun, migrations)..."
+echo "==> Spinning up the services (build + bootstrap: composer, bun, migrations)..."
 docker compose up -d --build
 
 # 5. Aguarda o servidor da app ficar pronto.
@@ -77,7 +77,7 @@ docker compose up -d --build
 #    grep encontra a mensagem e sai, mas o `docker logs -f` continua seguindo o log
 #    para sempre — a pipeline nunca termina e o script só morre no timeout de 10 min,
 #    mesmo com o servidor já no ar.
-echo "==> Aguardando o servidor da aplicação..."
+echo "==> Waiting for the application server..."
 if timeout 600 bash -c "while ! docker logs '${APP_CONTAINER}' 2>&1 | grep -qm1 'Server running'; do sleep 2; done"; then
     APP_PORT="$(grep -E '^APP_PORT=' .env | cut -d= -f2- | tr -d '"' || true)"
     APP_PORT="${APP_PORT:-8080}"
@@ -85,14 +85,14 @@ if timeout 600 bash -c "while ! docker logs '${APP_CONTAINER}' 2>&1 | grep -qm1 
     MAILPIT_PORT="${MAILPIT_PORT:-8025}"
 
     echo ""
-    echo "✅ Projeto no ar do zero!"
+    echo "✅ Project live and built from scratch!"
     echo "   App:      http://localhost:${APP_PORT}"
     echo "   Mailpit:  http://localhost:${MAILPIT_PORT}"
     echo ""
-    echo "Para o Vite (HMR) em desenvolvimento:"
+    echo "For Vite (HM) in development:"
     echo "   docker exec -it ${APP_CONTAINER} bun run dev"
 else
-    echo "⚠️  O servidor não ficou pronto dentro do tempo esperado." >&2
-    echo "    Confira o log: docker compose logs -f app" >&2
+    echo "⚠️  OThe server was not ready within the expected time." >&2
+    echo "    Check o log: docker compose logs -f app" >&2
     exit 1
 fi

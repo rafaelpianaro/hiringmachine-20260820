@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Actions\RecipeRate;
 use App\Http\Controllers\Controller;
 use App\Models\Recipe;
 use App\Traits\ApiResponser;
@@ -186,5 +187,23 @@ class RecipeController extends Controller
             ->paginate($request->get('per_page', 15));
 
         return $this->successResponse($recipes);
+    }
+
+    /**
+     * Rate a recipe.
+     */
+    public function rate(Request $request, Recipe $recipe)
+    {
+        $validated = $request->validate([
+            'stars' => 'required|integer|min:1|max:5',
+        ]);
+
+        try {
+            $payload = (new RecipeRate)->handle($recipe, Auth::id(), $validated['stars']);
+        } catch (\RuntimeException $exception) {
+            return $this->errorResponse($exception->getMessage(), 422);
+        }
+
+        return $this->successResponse($payload, 'Avaliação registrada com sucesso', 201);
     }
 }

@@ -86,6 +86,77 @@ class RecipeTest extends TestCase
 
         $response->assertStatus(401);
     }
+
+    public function test_authenticated_user_can_list_their_recipes()
+    {
+        $user = User::where('email', 'maria.clara@culinaria.com')->first();
+        $token = JWTAuth::fromUser($user);
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)
+            ->getJson('/api/v1/recipes/my-recipes');
+
+        $response->assertStatus(200)
+            ->assertJsonStructure([
+                'status',
+                'data' => [
+                    'data' => [
+                        '*' => ['id', 'title', 'description', 'ingredients', 'instructions', 'created_at', 'created_at_formatted'],
+                    ],
+                ],
+            ]);
+    }
+
+    public function test_authenticated_user_can_rate_recipe()
+    {
+        $user = User::where('email', 'lucas.costa@email.com')->first();
+        $token = JWTAuth::fromUser($user);
+        $recipe = Recipe::first();
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)
+            ->postJson("/api/v1/recipes/{$recipe->id}/ratings", [
+                'stars' => 5,
+            ]);
+
+        $response->assertStatus(201)
+            ->assertJsonStructure([
+                'status',
+                'data' => ['id', 'ratings'],
+            ])
+            ->assertJsonPath('data.ratings.0.stars', 5);
+
+        $this->assertDatabaseHas('recipe_ratings', [
+            'recipe_id' => $recipe->id,
+            'user_id' => $user->id,
+            'stars' => 5,
+        ]);
+    }
+
+    public function test_unauthenticated_user_cannot_rate_recipe()
+    {
+        $recipe = Recipe::first();
+
+        $response = $this->postJson("/api/v1/recipes/{$recipe->id}/ratings", [
+            'stars' => 5,
+        ]);
+
+        $response->assertStatus(401);
+    }
+
+    public function test_user_cannot_rate_their_own_recipe()
+    {
+        $user = User::where('email', 'maria.clara@culinaria.com')->first();
+        $token = JWTAuth::fromUser($user);
+        $recipe = $user->recipes()->first();
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)
+            ->postJson("/api/v1/recipes/{$recipe->id}/ratings", [
+                'stars' => 5,
+            ]);
+
+        $response->assertStatus(422)
+            ->assertJsonPath('message', 'Você não pode avaliar sua própria receita.');
+    }
+
     public function test_user_can_update_own_recipe()
     {
         $user = User::where('email', 'maria.clara@culinaria.com')->first();

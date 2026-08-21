@@ -383,6 +383,37 @@ Delete a recipe (Authenticated, Owner).
 ### GET /recipes/my-recipes
 Get recipes by authenticated user (Authenticated).
 
+### POST /recipes/{id}/ratings
+Rate a recipe (Authenticated).
+
+**Headers:** `Authorization: Bearer <token>`
+
+**Request:**
+```json
+{
+    "stars": 5
+}
+```
+
+**Response (201):**
+```json
+{
+    "status": "success",
+    "message": "Avaliação registrada com sucesso",
+    "data": {
+        "id": 16,
+        "ratings": [
+            {
+                "id": 1,
+                "userId": 2,
+                "stars": 5,
+                "userName": "Maria"
+            }
+        ]
+    }
+}
+```
+
 ---
 
 ## Comment Endpoints

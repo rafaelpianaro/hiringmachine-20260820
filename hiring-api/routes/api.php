@@ -48,10 +48,6 @@ $publicRoutes = function () {
     });
 };
 
-// Public routes - Authentication
-Route::prefix('hm')->group($publicRoutes);
-Route::prefix('v1')->group($publicRoutes);
-
 $protectedRoutes = function () {
     // User profile routes
     Route::prefix('auth')->group(function () {
@@ -86,6 +82,7 @@ $protectedRoutes = function () {
     Route::prefix('recipes')->group(function () {
         Route::post('/', [RecipeController::class, 'store']);
         Route::get('/my-recipes', [RecipeController::class, 'myRecipes']);
+        Route::post('/{recipe}/ratings', [RecipeController::class, 'rate']);
         Route::put('/{recipe}', [RecipeController::class, 'update']);
         Route::delete('/{recipe}', [RecipeController::class, 'destroy']);
     });
@@ -105,3 +102,7 @@ $protectedRoutes = function () {
 // Protected routes - Require JWT Authentication
 Route::prefix('hm')->middleware('auth:api')->group($protectedRoutes);
 Route::prefix('v1')->middleware('auth:api')->group($protectedRoutes);
+
+// Public routes - Authentication
+Route::prefix('hm')->group($publicRoutes);
+Route::prefix('v1')->group($publicRoutes);

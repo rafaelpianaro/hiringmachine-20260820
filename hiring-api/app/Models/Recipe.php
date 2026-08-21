@@ -52,6 +52,14 @@ class Recipe extends Model
     }
 
     /**
+     * Get the ratings for the recipe.
+     */
+    public function ratings(): HasMany
+    {
+        return $this->hasMany(RecipeRating::class);
+    }
+
+    /**
      * Check if recipe is published
      */
     public function isPublished(): bool
