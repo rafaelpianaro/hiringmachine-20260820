@@ -2,11 +2,11 @@
   <div class="max-w-3xl px-6 pt-24 pb-16 mx-auto">
     <button @click="$router.back()" class="flex items-center gap-2 mb-6 text-sm transition text-sage hover:text-olive">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
-      Voltar
+      Back
     </button>
 
     <h1 class="mb-8 font-serif text-3xl font-medium md:text-4xl text-graphite">
-      {{ isEditing ? 'Editar receita' : 'Nova receita' }}
+      {{ isEditing ? 'Edit recipe' : 'New recipe' }}
     </h1>
 
     <!-- Global Error -->
@@ -17,19 +17,19 @@
     <form @submit.prevent="handleSubmit" class="space-y-8">
       <!-- Basic Info -->
       <div class="p-6 bg-white border shadow-sm rounded-3xl md:p-8 border-border-light">
-        <h3 class="mb-5 font-serif text-lg font-semibold text-graphite">Informações básicas</h3>
+        <h3 class="mb-5 font-serif text-lg font-semibold text-graphite">Basic Info</h3>
         <div class="space-y-5">
           <div>
-            <label class="block text-sm font-medium mb-1.5 text-graphite">Título da receita *</label>
-            <input v-model="form.title" type="text" placeholder="Ex: Bolo de Cenoura"
+            <label class="block text-sm font-medium mb-1.5 text-graphite">Recipe title *</label>
+            <input v-model="form.title" type="text" placeholder="e.g. Chocolate Cake"
               :class="inputClass('title')"
               @input="clearFieldError('title')">
             <p v-if="fieldError('title')" class="mt-1 text-xs text-error">{{ fieldError('title') }}</p>
           </div>
 
           <div>
-            <label class="block text-sm font-medium mb-1.5 text-graphite">Descrição *</label>
-            <textarea v-model="form.description" rows="2" placeholder="Descreva sua receita..."
+            <label class="block text-sm font-medium mb-1.5 text-graphite">Description *</label>
+            <textarea v-model="form.description" rows="2" placeholder="Describe your recipe..."
               :class="inputClass('description') + ' resize-none'"
               @input="clearFieldError('description')"></textarea>
             <p v-if="fieldError('description')" class="mt-1 text-xs text-error">{{ fieldError('description') }}</p>
@@ -37,34 +37,34 @@
 
           <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
             <div>
-              <label class="block text-sm font-medium mb-1.5 text-graphite">Categoria *</label>
+              <label class="block text-sm font-medium mb-1.5 text-graphite">Category *</label>
               <select v-model="form.category"
                 :class="inputClass('category')"
                 @change="clearFieldError('category')">
-                <option value="">Selecione...</option>
+                <option value="">Select...</option>
                 <option v-for="cat in categories" :key="cat" :value="cat">{{ cat }}</option>
               </select>
               <p v-if="fieldError('category')" class="mt-1 text-xs text-error">{{ fieldError('category') }}</p>
             </div>
             <div>
-              <label class="block text-sm font-medium mb-1.5 text-graphite">Dificuldade *</label>
+              <label class="block text-sm font-medium mb-1.5 text-graphite">Difficulty *</label>
               <select v-model="form.difficulty"
                 :class="inputClass('difficulty')"
                 @change="clearFieldError('difficulty')">
-                <option value="">Selecione...</option>
-                <option value="easy">Fácil</option>
-                <option value="medium">Médio</option>
-                <option value="hard">Difícil</option>
+                <option value="">Select...</option>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
               </select>
               <p v-if="fieldError('difficulty')" class="mt-1 text-xs text-error">{{ fieldError('difficulty') }}</p>
             </div>
             <div>
-              <label class="block text-sm font-medium mb-1.5 text-graphite">Tempo de preparo (min)</label>
+              <label class="block text-sm font-medium mb-1.5 text-graphite">Prep time (min)</label>
               <input v-model.number="form.prep_time" type="number" min="1"
                 class="w-full px-4 py-3 transition border outline-none rounded-xl border-border-light focus:border-olive focus:ring-2 focus:ring-olive/20">
             </div>
             <div>
-              <label class="block text-sm font-medium mb-1.5 text-graphite">Porções</label>
+              <label class="block text-sm font-medium mb-1.5 text-graphite">Servings</label>
               <input v-model.number="form.servings" type="number" min="1"
                 class="w-full px-4 py-3 transition border outline-none rounded-xl border-border-light focus:border-olive focus:ring-2 focus:ring-olive/20">
             </div>
@@ -78,7 +78,7 @@
               </div>
               <label class="flex-1 cursor-pointer">
                 <div class="w-full px-4 py-8 text-center transition border-2 border-dashed rounded-xl border-border-light hover:border-olive">
-                  <span class="text-sm text-sage">Clique para fazer upload de uma imagem</span>
+                  <span class="text-sm text-sage">Click to upload an image</span>
                 </div>
                 <input type="file" accept="image/*" class="hidden" @change="handleImageUpload">
               </label>
@@ -89,10 +89,10 @@
 
       <!-- Ingredients -->
       <div class="p-6 bg-white border shadow-sm rounded-3xl md:p-8 border-border-light">
-        <h3 class="mb-5 font-serif text-lg font-semibold text-graphite">Ingredientes *</h3>
+        <h3 class="mb-5 font-serif text-lg font-semibold text-graphite">Ingredients *</h3>
         <div class="space-y-3">
           <div v-for="(ing, i) in form.ingredients" :key="i" class="flex gap-2">
-            <input v-model="form.ingredients[i]" type="text" placeholder="Ex: 2 xícaras de farinha"
+            <input v-model="form.ingredients[i]" type="text" placeholder="e.g. 2 cups flour"
               :class="['flex-1 px-4 py-3 rounded-xl border focus:ring-2 focus:ring-olive/20 outline-none transition', fieldError('ingredients') ? 'border-error focus:border-error' : 'border-border-light focus:border-olive']"
               @input="clearFieldError('ingredients')">
             <button type="button" @click="removeIngredient(i)" v-if="form.ingredients.length > 1"
@@ -105,17 +105,17 @@
         <button type="button" @click="addIngredient"
           class="inline-flex items-center gap-2 mt-4 text-sm font-medium transition text-olive hover:text-olive-dark">
           <span class="flex items-center justify-center w-6 h-6 text-xs rounded-full bg-olive/10 text-olive">+</span>
-          Adicionar ingrediente
+          Add ingredient
         </button>
       </div>
 
       <!-- Steps -->
       <div class="p-6 bg-white border shadow-sm rounded-3xl md:p-8 border-border-light">
-        <h3 class="mb-5 font-serif text-lg font-semibold text-graphite">Modo de preparo *</h3>
+        <h3 class="mb-5 font-serif text-lg font-semibold text-graphite">Instructions *</h3>
         <div class="space-y-3">
           <div v-for="(step, i) in form.instructions" :key="i" class="flex gap-3">
             <div class="flex items-center justify-center flex-shrink-0 w-8 h-8 mt-1 text-sm font-bold rounded-full bg-mint text-olive">{{ i + 1 }}</div>
-            <textarea v-model="form.instructions[i]" rows="2" placeholder="Descreva o passo..."
+            <textarea v-model="form.instructions[i]" rows="2" placeholder="Describe the step..."
               :class="['flex-1 px-4 py-3 rounded-xl border focus:ring-2 focus:ring-olive/20 outline-none transition resize-none', fieldError('instructions') ? 'border-error focus:border-error' : 'border-border-light focus:border-olive']"
               @input="clearFieldError('instructions')"></textarea>
             <button type="button" @click="removeStep(i)" v-if="form.instructions.length > 1"
@@ -128,7 +128,7 @@
         <button type="button" @click="addStep"
           class="inline-flex items-center gap-2 mt-4 text-sm font-medium transition text-olive hover:text-olive-dark">
           <span class="flex items-center justify-center w-6 h-6 text-xs rounded-full bg-olive/10 text-olive">+</span>
-          Adicionar passo
+          Add step
         </button>
       </div>
 
@@ -137,11 +137,11 @@
         <button type="submit" :disabled="saving"
           class="flex-1 py-3.5 rounded-full bg-olive text-white font-medium hover:bg-olive-dark hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-60 flex items-center justify-center gap-2">
           <div v-if="saving" class="w-5 h-5 border-2 rounded-full border-white/30 border-t-white animate-spin"></div>
-          <span>{{ saving ? 'Salvando...' : (isEditing ? 'Salvar alterações' : 'Salvar receita') }}</span>
+          <span>{{ saving ? 'Saving...' : (isEditing ? 'Save changes' : 'Save recipe') }}</span>
         </button>
         <button type="button" @click="$router.back()"
           class="px-8 py-3.5 rounded-full border border-border-light font-medium hover:bg-mint transition">
-          Cancelar
+          Cancel
         </button>
       </div>
     </form>
@@ -161,7 +161,7 @@ const emit = defineEmits(['submit', 'clearError'])
 const saving = ref(false)
 const imagePreview = ref('')
 
-const categories = ['Doces', 'Bolos', 'Saladas', 'Pratos Principais', 'Pães', 'Sopas', 'Massas', 'Carnes', 'Bebidas', 'Sobremesas', 'Vegetariano']
+const categories = ['Sweets', 'Cakes', 'Salads', 'Main Dishes', 'Breads', 'Soups', 'Pasta', 'Meats', 'Beverages', 'Desserts', 'Vegetarian']
 
 const form = reactive({
   title: '',
@@ -256,7 +256,7 @@ async function handleSubmit() {
   emit('submit', payload)
 }
 
-// Resetar saving quando API retornar erro
+// Reset saving when API returns error
 let wasSubmitting = false
 watch(() => saving.value, (val) => { wasSubmitting = val })
 watch(() => [props.fieldErrors, props.globalError], ([fe, ge]) => {

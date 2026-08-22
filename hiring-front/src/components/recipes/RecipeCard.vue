@@ -7,7 +7,7 @@
         {{ recipe.category }}
       </span>
       <div v-if="isOwner" class="absolute top-4 right-4 flex gap-2" @click.stop>
-        <button @click="$router.push(`/receitas/${recipe.id}/editar`)"
+        <button @click="$router.push(`/recipes/${recipe.id}/edit`)"
           class="w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center hover:bg-olive hover:text-white transition shadow-sm">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>
         </button>
@@ -28,7 +28,7 @@
         </span>
         <span class="flex items-center gap-1">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"/><path d="M5 21V7l8-4 8 4v14"/><path d="M10 21v-6h4v6"/></svg>
-          {{ recipe.servings }} porções
+          {{ recipe.servings }} servings
         </span>
         <span class="flex items-center gap-1">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
@@ -63,7 +63,7 @@ const router = useRouter()
 const userStore = useUserStore()
 
 const author = computed(() => ({
-  name: props.recipe.authorName || 'Desconhecido',
+  name: props.recipe.authorName || 'Unknown',
   avatarUrl: props.recipe.authorAvatar || ''
 }))
 

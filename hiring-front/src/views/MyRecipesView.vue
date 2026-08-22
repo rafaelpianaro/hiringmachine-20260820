@@ -6,21 +6,21 @@
         <div>
           <div class="flex items-center gap-3 mb-3">
             <div class="w-8 h-px bg-olive"></div>
-            <span class="text-sm text-sage uppercase tracking-widest font-medium">Sua cozinha</span>
+            <span class="text-sm text-sage uppercase tracking-widest font-medium">Your Kitchen</span>
           </div>
-          <h2 class="font-serif text-3xl md:text-4xl font-medium text-graphite">Minhas Receitas</h2>
-          <p class="text-sage mt-2">Gerencie suas criações e acompanhe as avaliações.</p>
+          <h2 class="font-serif text-3xl md:text-4xl font-medium text-graphite">My Recipes</h2>
+          <p class="text-sage mt-2">Manage your creations and track ratings.</p>
         </div>
         <div class="flex gap-3">
           <div class="relative w-56">
-            <input v-model="searchQuery" type="text" placeholder="Buscar nas minhas receitas..."
+            <input v-model="searchQuery" type="text"            placeholder="Search my recipes..."
               class="w-full pl-9 pr-4 py-2.5 rounded-full border border-border-light bg-white shadow-sm focus:border-olive focus:ring-2 focus:ring-olive/20 outline-none transition text-sm">
             <svg class="absolute left-3 top-1/2 -translate-y-1/2 text-sage" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
           </div>
-          <RouterLink to="/receitas/nova"
+          <RouterLink to="/recipes/new"
             class="px-5 py-2.5 rounded-full bg-olive text-white text-sm font-medium hover:bg-olive-dark hover:scale-[1.03] active:scale-[0.98] transition-all flex items-center gap-2 shadow-sm whitespace-nowrap">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
-            Nova Receita
+            New Recipe
           </RouterLink>
         </div>
       </div>
@@ -29,15 +29,15 @@
       <div class="grid grid-cols-3 gap-4 mb-8" v-if="filteredMyRecipes.length > 0">
         <div class="bg-white rounded-2xl p-4 border border-border-light">
           <div class="text-2xl font-serif font-bold text-graphite">{{ filteredMyRecipes.length }}</div>
-          <div class="text-xs text-sage uppercase tracking-wide">Receitas</div>
+          <div class="text-xs text-sage uppercase tracking-wide">Recipes</div>
         </div>
         <div class="bg-white rounded-2xl p-4 border border-border-light">
           <div class="text-2xl font-serif font-bold text-graphite">{{ totalRatings }}</div>
-          <div class="text-xs text-sage uppercase tracking-wide">Avaliações</div>
+          <div class="text-xs text-sage uppercase tracking-wide">Ratings</div>
         </div>
         <div class="bg-white rounded-2xl p-4 border border-border-light">
           <div class="text-2xl font-serif font-bold text-graphite">{{ avgRating }}</div>
-          <div class="text-xs text-sage uppercase tracking-wide">Média</div>
+          <div class="text-xs text-sage uppercase tracking-wide">Average</div>
         </div>
       </div>
 
@@ -55,7 +55,7 @@
             <img :src="recipe.coverImage" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" :alt="recipe.title">
             <span class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-medium text-graphite">{{ recipe.category }}</span>
             <div class="absolute top-4 right-4 flex gap-2" @click.stop>
-              <button @click="$router.push(`/receitas/${recipe.id}/editar`)"
+              <button @click="$router.push(`/recipes/${recipe.id}/edit`)"
                 class="w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center hover:bg-olive hover:text-white transition shadow-sm">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>
               </button>
@@ -74,7 +74,7 @@
               </span>
               <span class="flex items-center gap-1">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"/><path d="M5 21V7l8-4 8 4v14"/><path d="M10 21v-6h4v6"/></svg>
-                {{ recipe.servings }} porções
+                {{ recipe.servings }} servings
               </span>
             </div>
             <div class="flex items-center justify-between">
@@ -95,13 +95,12 @@
 
       <!-- Empty State -->
       <div v-else class="text-center py-24">
-        <div class="w-24 h-24 mx-auto mb-6 rounded-full bg-mint flex items-center justify-center text-4xl">🥘</div>
-        <h3 class="font-serif text-2xl font-semibold mb-3 text-graphite">Sua cozinha está vazia</h3>
-        <p class="text-sage mb-8 max-w-md mx-auto">Você ainda não publicou nenhuma receita. Que tal compartilhar sua primeira criação?</p>
-        <RouterLink to="/receitas/nova"
+        <div class="w-24 h-24 mx-auto mb-6 rounded-full bg-mint flex items-center justify-center text-4xl">🥘</div>          <h3 class="font-serif text-2xl font-semibold mb-3 text-graphite">Your kitchen is empty</h3>
+        <p class="text-sage mb-8 max-w-md mx-auto">You haven't published any recipes yet. Why not share your first creation?</p>
+        <RouterLink to="/recipes/new"
           class="px-8 py-3 rounded-full bg-olive text-white font-medium hover:bg-olive-dark transition inline-flex items-center gap-2">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
-          Criar primeira receita
+          Create first recipe
         </RouterLink>
       </div>
     </div>
@@ -119,11 +118,11 @@
           <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-error/10 flex items-center justify-center text-error">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
           </div>
-          <h3 class="font-serif text-xl font-semibold mb-2 text-graphite">Excluir receita?</h3>
-          <p class="text-sage text-sm mb-6">Esta ação não pode ser desfeita. Tem certeza?</p>
+          <h3 class="font-serif text-xl font-semibold mb-2 text-graphite">Delete recipe?</h3>
+          <p class="text-sage text-sm mb-6">This action cannot be undone. Are you sure?</p>
           <div class="flex gap-3">
-            <button @click="showDeleteModal = false" class="flex-1 py-2.5 rounded-full border border-border-light text-sm font-medium hover:bg-mint transition">Cancelar</button>
-            <button @click="executeDelete" class="flex-1 py-2.5 rounded-full bg-error text-white text-sm font-medium hover:bg-[#c9302c] transition">Excluir</button>
+            <button @click="showDeleteModal = false" class="flex-1 py-2.5 rounded-full border border-border-light text-sm font-medium hover:bg-mint transition">Cancel</button>
+            <button @click="executeDelete" class="flex-1 py-2.5 rounded-full bg-error text-white text-sm font-medium hover:bg-[#c9302c] transition">Delete</button>
           </div>
         </div>
       </div>
@@ -195,7 +194,7 @@ async function executeDelete() {
   if (!deleteTargetId.value) return
   try {
     await recipeStore.deleteRecipe(deleteTargetId.value)
-    toast.show('Receita removida.')
+    toast.show('Recipe deleted.')
   } catch (e) {
     toast.show(e.message, 'error')
   }

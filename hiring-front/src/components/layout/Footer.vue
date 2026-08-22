@@ -5,29 +5,29 @@
         <div class="md:col-span-1">
           <span class="font-serif text-2xl font-semibold text-white">Recepies</span>
           <p class="mt-4 text-sm text-sage leading-relaxed">
-            Descubra, cozinhe e compartilhe pratos incríveis. Uma comunidade feita por quem ama cozinhar.
+            Discover, cook and share amazing dishes. A community made by people who love cooking.
           </p>
         </div>
         <div>
-          <h4 class="text-white font-medium mb-4 text-sm uppercase tracking-wide">Navegação</h4>
+          <h4 class="text-white font-medium mb-4 text-sm uppercase tracking-wide">Navigation</h4>
           <ul class="space-y-2 text-sm text-sage">
-            <li><RouterLink to="/" class="hover:text-olive transition">Início</RouterLink></li>
-            <li><a href="/#receitas" class="hover:text-olive transition">Receitas</a></li>
-            <li><RouterLink to="/minhas-receitas" class="hover:text-olive transition">Minhas Receitas</RouterLink></li>
-            <li><a href="#" class="hover:text-olive transition">Sobre</a></li>
+            <li><RouterLink to="/" class="hover:text-olive transition">Home</RouterLink></li>
+            <li><a href="/#recipes" class="hover:text-olive transition">Recipes</a></li>
+            <li><RouterLink to="/my-recipes" class="hover:text-olive transition">My Recipes</RouterLink></li>
+            <li><a href="#" class="hover:text-olive transition">About</a></li>
           </ul>
         </div>
         <div>
-          <h4 class="text-white font-medium mb-4 text-sm uppercase tracking-wide">Categorias</h4>
+          <h4 class="text-white font-medium mb-4 text-sm uppercase tracking-wide">Categories</h4>
           <ul class="space-y-2 text-sm text-sage">
-            <li><a href="#" class="hover:text-olive transition">Sobremesas</a></li>
-            <li><a href="#" class="hover:text-olive transition">Sopas</a></li>
-            <li><a href="#" class="hover:text-olive transition">Vegetariano</a></li>
-            <li><a href="#" class="hover:text-olive transition">Carnes</a></li>
+            <li><a href="#" class="hover:text-olive transition">Desserts</a></li>
+            <li><a href="#" class="hover:text-olive transition">Soups</a></li>
+            <li><a href="#" class="hover:text-olive transition">Vegetarian</a></li>
+            <li><a href="#" class="hover:text-olive transition">Meats</a></li>
           </ul>
         </div>
         <div>
-          <h4 class="text-white font-medium mb-4 text-sm uppercase tracking-wide">Redes Sociais</h4>
+          <h4 class="text-white font-medium mb-4 text-sm uppercase tracking-wide">Social Media</h4>
           <div class="flex gap-3">
             <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-olive transition">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
@@ -42,10 +42,10 @@
         </div>
       </div>
       <div class="mt-12 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-sage">
-        <p>© 2026 Recepies. Todos os direitos reservados.</p>
+        <p>© 2026 Recepies. All rights reserved.</p>
         <div class="flex gap-6">
-          <a href="#" class="hover:text-white transition">Política de Privacidade</a>
-          <a href="#" class="hover:text-white transition">Termos de Uso</a>
+          <a href="#" class="hover:text-white transition">Privacy Policy</a>
+          <a href="#" class="hover:text-white transition">Terms of Service</a>
         </div>
       </div>
     </div>

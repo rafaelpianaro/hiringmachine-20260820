@@ -9,8 +9,8 @@ export interface Rating {
   stars: 1 | 2 | 3
 }
 
-export type Category = 'Sobremesas' | 'Sopas' | 'Vegetariano' | 'Carnes' | 'Massas' | 'Bebidas'
-export type Difficulty = 'Fácil' | 'Médio' | 'Difícil'
+export type Category = 'Sweets' | 'Soups' | 'Vegetarian' | 'Meats' | 'Pasta' | 'Beverages' | 'Cakes' | 'Salads' | 'Main Dishes' | 'Breads' | 'Desserts'
+export type Difficulty = 'Easy' | 'Medium' | 'Hard'
 
 export interface Recipe {
   id: string

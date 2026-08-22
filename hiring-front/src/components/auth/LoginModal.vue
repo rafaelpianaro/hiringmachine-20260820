@@ -13,11 +13,11 @@
           <div class="flex mb-6 bg-mint rounded-full p-1">
             <button @click="switchMode('login')"
               :class="['flex-1 py-2.5 rounded-full text-sm font-medium transition', mode === 'login' ? 'bg-white text-graphite shadow-sm' : 'text-sage hover:text-graphite']">
-              Entrar
+              Sign In
             </button>
             <button @click="switchMode('register')"
               :class="['flex-1 py-2.5 rounded-full text-sm font-medium transition', mode === 'register' ? 'bg-white text-graphite shadow-sm' : 'text-sage hover:text-graphite']">
-              Criar conta
+              Sign Up
             </button>
           </div>
 
@@ -29,15 +29,15 @@
           <!-- Login Form -->
           <form v-if="mode === 'login'" @submit.prevent="handleLogin" class="space-y-4">
             <div>
-              <label class="block text-sm font-medium mb-1.5 text-graphite">E-mail</label>
-              <input v-model="loginForm.email" type="email" placeholder="seu@email.com"
+              <label class="block text-sm font-medium mb-1.5 text-graphite">Email</label>
+              <input v-model="loginForm.email" type="email" placeholder="you@email.com"
                 :class="['w-full px-4 py-3 rounded-xl border focus:ring-2 focus:ring-olive/20 outline-none transition', fieldError('email') ? 'border-error focus:border-error' : 'border-border-light focus:border-olive']"
                 @input="clearFieldError('email')">
               <p v-if="fieldError('email')" class="mt-1 text-xs text-error">{{ fieldError('email') }}</p>
             </div>
             <div>
-              <label class="block text-sm font-medium mb-1.5 text-graphite">Senha</label>
-              <input v-model="loginForm.password" type="password" placeholder="Sua senha"
+              <label class="block text-sm font-medium mb-1.5 text-graphite">Password</label>
+              <input v-model="loginForm.password" type="password" placeholder="Your password"
                 :class="['w-full px-4 py-3 rounded-xl border focus:ring-2 focus:ring-olive/20 outline-none transition', fieldError('password') ? 'border-error focus:border-error' : 'border-border-light focus:border-olive']"
                 @input="clearFieldError('password')">
               <p v-if="fieldError('password')" class="mt-1 text-xs text-error">{{ fieldError('password') }}</p>
@@ -46,39 +46,39 @@
               class="w-full py-3 rounded-full bg-olive text-white font-medium hover:bg-olive-dark hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed">
               <span v-if="userStore.loading" class="flex items-center justify-center gap-2">
                 <span class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
-                Entrando...
+                Signing in...
               </span>
-              <span v-else>Entrar</span>
+              <span v-else>Sign In</span>
             </button>
           </form>
 
           <!-- Register Form -->
           <form v-else @submit.prevent="handleRegister" class="space-y-4">
             <div>
-              <label class="block text-sm font-medium mb-1.5 text-graphite">Nome completo</label>
-              <input v-model="registerForm.name" type="text" placeholder="Seu nome"
+              <label class="block text-sm font-medium mb-1.5 text-graphite">Full name</label>
+              <input v-model="registerForm.name" type="text" placeholder="Your name"
                 :class="['w-full px-4 py-3 rounded-xl border focus:ring-2 focus:ring-olive/20 outline-none transition', fieldError('name') ? 'border-error focus:border-error' : 'border-border-light focus:border-olive']"
                 @input="clearFieldError('name')">
               <p v-if="fieldError('name')" class="mt-1 text-xs text-error">{{ fieldError('name') }}</p>
             </div>
             <div>
-              <label class="block text-sm font-medium mb-1.5 text-graphite">E-mail</label>
-              <input v-model="registerForm.email" type="email" placeholder="seu@email.com"
+              <label class="block text-sm font-medium mb-1.5 text-graphite">Email</label>
+              <input v-model="registerForm.email" type="email" placeholder="you@email.com"
                 :class="['w-full px-4 py-3 rounded-xl border focus:ring-2 focus:ring-olive/20 outline-none transition', fieldError('email') ? 'border-error focus:border-error' : 'border-border-light focus:border-olive']"
                 @input="clearFieldError('email')">
               <p v-if="fieldError('email')" class="mt-1 text-xs text-error">{{ fieldError('email') }}</p>
             </div>
             <div class="grid grid-cols-2 gap-3">
               <div>
-                <label class="block text-sm font-medium mb-1.5 text-graphite">Senha</label>
-                <input v-model="registerForm.password" type="password" placeholder="Mín. 6 caracteres"
+                <label class="block text-sm font-medium mb-1.5 text-graphite">Password</label>
+                <input v-model="registerForm.password" type="password" placeholder="Min. 8 characters"
                   :class="['w-full px-4 py-3 rounded-xl border focus:ring-2 focus:ring-olive/20 outline-none transition', fieldError('password') ? 'border-error focus:border-error' : 'border-border-light focus:border-olive']"
                   @input="clearFieldError('password')">
                 <p v-if="fieldError('password')" class="mt-1 text-xs text-error">{{ fieldError('password') }}</p>
               </div>
               <div>
-                <label class="block text-sm font-medium mb-1.5 text-graphite">Confirmar senha</label>
-                <input v-model="registerForm.password_confirmation" type="password" placeholder="Repita a senha"
+                <label class="block text-sm font-medium mb-1.5 text-graphite">Confirm password</label>
+                <input v-model="registerForm.password_confirmation" type="password" placeholder="Repeat password"
                   :class="['w-full px-4 py-3 rounded-xl border focus:ring-2 focus:ring-olive/20 outline-none transition', fieldError('password_confirmation') ? 'border-error focus:border-error' : 'border-border-light focus:border-olive']"
                   @input="clearFieldError('password_confirmation')">
                 <p v-if="fieldError('password_confirmation')" class="mt-1 text-xs text-error">{{ fieldError('password_confirmation') }}</p>
@@ -88,9 +88,9 @@
               class="w-full py-3 rounded-full bg-olive text-white font-medium hover:bg-olive-dark hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed">
               <span v-if="userStore.loading" class="flex items-center justify-center gap-2">
                 <span class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
-                Criando conta...
+                Creating account...
               </span>
-              <span v-else>Criar conta</span>
+              <span v-else>Sign Up</span>
             </button>
           </form>
         </div>
@@ -164,7 +164,7 @@ async function handleLogin() {
   if (!loginForm.email.trim() || !loginForm.password.trim()) return
   try {
     await userStore.login(loginForm.email, loginForm.password)
-    toast.show('Bem-vindo(a) à cozinha! 👨‍🍳')
+    toast.show('Welcome to the kitchen! 👨‍🍳')
     loginForm.email = ''
     loginForm.password = ''
   } catch (e) {
@@ -174,7 +174,7 @@ async function handleLogin() {
 
 async function handleRegister() {
   if (registerForm.password !== registerForm.password_confirmation) {
-    const errs = { password_confirmation: ['As senhas não conferem'] }
+    const errs = { password_confirmation: ['Passwords do not match'] }
     fieldErrors.value = errs
     userStore.fieldErrors = errs
     hasFieldErrors.value = true
@@ -182,7 +182,7 @@ async function handleRegister() {
   }
   try {
     await userStore.register(registerForm)
-    toast.show('Conta criada com sucesso! Bem-vindo(a) 👨‍🍳')
+    toast.show('Account created successfully! Welcome 👨‍🍳')
     Object.assign(registerForm, { name: '', email: '', password: '', password_confirmation: '' })
   } catch (e) {
     // erros já sincronizados via watch

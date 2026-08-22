@@ -37,8 +37,8 @@ onMounted(async () => {
 
       // Check if the logged-in user is the owner of the recipe
       if (!userStore.currentUser || String(recipe.authorId) !== String(userStore.currentUser.id)) {
-        toast.show('Você não tem permissão para editar esta receita.', 'error')
-        router.push('/minhas-receitas')
+        toast.show('You do not have permission to edit this recipe.', 'error')
+        router.push('/my-recipes')
         return
       }
 
@@ -63,12 +63,12 @@ async function handleSubmit(formData) {
   try {
     if (isEditing.value) {
       await recipeStore.updateRecipe(route.params.id, formData)
-      toast.show('Sua receita foi atualizada com carinho 🍲')
+      toast.show('Your recipe has been updated 🍲')
     } else {
       await recipeStore.createRecipe(formData)
-      toast.show('Sua receita foi salva com carinho 🍲')
+      toast.show('Your recipe has been saved 🍲')
     }
-    router.push('/minhas-receitas')
+    router.push('/my-recipes')
   } catch (e) {
     // erros já são exibidos pelo store
   }

@@ -10,18 +10,18 @@ export const useRecipeStore = defineStore('recipe', () => {
   const error = ref(null)
   const fieldErrors = ref(null)
   const searchQuery = ref('')
-  const activeCategory = ref('Todas')
+  const activeCategory = ref('All')
 
   const categories = [
-    { name: 'Sobremesas', count: 124, image: 'https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=200&h=200&fit=crop' },
-    { name: 'Sopas', count: 89, image: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=200&h=200&fit=crop' },
-    { name: 'Vegetariano', count: 156, image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=200&h=200&fit=crop' },
-    { name: 'Carnes', count: 203, image: 'https://images.unsplash.com/photo-1603360946369-dc9bb6258143?w=200&h=200&fit=crop' }
+    { name: 'Desserts', count: 124, image: 'https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=200&h=200&fit=crop' },
+    { name: 'Soups', count: 89, image: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=200&h=200&fit=crop' },
+    { name: 'Vegetarian', count: 156, image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=200&h=200&fit=crop' },
+    { name: 'Meats', count: 203, image: 'https://images.unsplash.com/photo-1603360946369-dc9bb6258143?w=200&h=200&fit=crop' }
   ]
 
   const filteredRecipes = computed(() => {
     let result = recipes.value
-    if (activeCategory.value !== 'Todas') {
+    if (activeCategory.value !== 'All') {
       result = result.filter(r => r.category === activeCategory.value)
     }
     if (searchQuery.value.trim()) {
@@ -103,14 +103,14 @@ export const useRecipeStore = defineStore('recipe', () => {
 
   async function rateRecipe(recipeId, stars) {
     const updated = await recipeService.rateRecipe(recipeId, stars)
-    // Atualiza a receita no array local com os ratings retornados
+    // Update the recipe in the local array with returned ratings
     const id = String(recipeId)
     const idx = recipes.value.findIndex(r => r.id === id)
     if (idx !== -1) {
-      // Substitui o objeto inteiro para garantir reatividade
+      // Replace the entire object to ensure reactivity
       recipes.value.splice(idx, 1, updated)
     }
-    // Atualiza também em myRecipes se existir
+    // Also update in myRecipes if it exists
     const idxMy = myRecipes.value.findIndex(r => r.id === id)
     if (idxMy !== -1) {
       myRecipes.value.splice(idxMy, 1, updated)

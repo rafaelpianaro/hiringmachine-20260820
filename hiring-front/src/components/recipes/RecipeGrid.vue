@@ -1,17 +1,17 @@
 <template>
-  <section id="receitas" class="py-16 md:py-24 bg-mint">
+  <section id="recipes" class="py-16 md:py-24 bg-mint">
     <div class="px-6 mx-auto max-w-7xl">
       <!-- Header com busca -->
       <div class="flex flex-col justify-between gap-4 mb-8 md:flex-row md:items-end">
         <div class="flex-1">
           <div class="flex items-center gap-3 mb-3">
             <div class="w-8 h-px bg-olive"></div>
-            <span class="text-sm font-medium tracking-widest uppercase text-sage">Descubra</span>
+            <span class="text-sm font-medium tracking-widest uppercase text-sage">Discover</span>
           </div>
-          <h2 class="font-serif text-3xl font-medium md:text-4xl text-graphite">Receitas em destaque</h2>
+          <h2 class="font-serif text-3xl font-medium md:text-4xl text-graphite">Featured Recipes</h2>
         </div>
         <div class="relative w-full md:w-80">
-          <input v-model="recipeStore.searchQuery" type="text" placeholder="Buscar receita ou ingrediente..."
+          <input v-model="recipeStore.searchQuery" type="text"          placeholder="Search recipes or ingredients..."
             class="w-full py-3 pl-10 pr-4 text-sm transition bg-white border rounded-full shadow-sm outline-none border-border-light focus:border-olive focus:ring-2 focus:ring-olive/20">
           <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 text-sage" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
         </div>
@@ -19,9 +19,9 @@
 
       <!-- Category filters -->
       <div class="flex flex-wrap gap-2 mb-8">
-        <button @click="recipeStore.setCategory('Todas')"
-          :class="['px-4 py-2 rounded-full text-sm font-medium transition', recipeStore.activeCategory === 'Todas' ? 'bg-graphite text-white' : 'bg-white text-sage hover:bg-graphite hover:text-white']">
-          Todas
+        <button @click="recipeStore.setCategory('All')"
+          :class="['px-4 py-2 rounded-full text-sm font-medium transition', recipeStore.activeCategory === 'All' ? 'bg-graphite text-white' : 'bg-white text-sage hover:bg-graphite hover:text-white']">
+          All
         </button>
         <button v-for="cat in apiCategories" :key="cat"
           @click="recipeStore.setCategory(cat)"
@@ -47,8 +47,8 @@
       <!-- Empty -->
       <div v-else class="py-20 text-center">
         <div class="mb-4 text-6xl">🍲</div>
-        <h3 class="mb-2 font-serif text-xl font-semibold text-graphite">Nenhuma receita encontrada</h3>
-        <p class="text-sage">Tente ajustar sua busca ou categoria.</p>
+        <h3 class="mb-2 font-serif text-xl font-semibold text-graphite">No recipes found</h3>
+        <p class="text-sage">Try adjusting your search or category.</p>
       </div>
     </div>
   </section>
@@ -65,11 +65,11 @@
           <div class="flex items-center justify-center mx-auto mb-4 rounded-full w-14 h-14 bg-error/10 text-error">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
           </div>
-          <h3 class="mb-2 font-serif text-xl font-semibold text-graphite">Excluir receita?</h3>
-          <p class="mb-6 text-sm text-sage">Esta ação não pode ser desfeita. Tem certeza?</p>
+          <h3 class="mb-2 font-serif text-xl font-semibold text-graphite">Delete recipe?</h3>
+          <p class="mb-6 text-sm text-sage">This action cannot be undone. Are you sure?</p>
           <div class="flex gap-3">
-            <button @click="showDeleteModal = false" class="flex-1 py-2.5 rounded-full border border-border-light text-sm font-medium hover:bg-mint transition">Cancelar</button>
-            <button @click="executeDelete" class="flex-1 py-2.5 rounded-full bg-error text-white text-sm font-medium hover:bg-[#c9302c] transition">Excluir</button>
+            <button @click="showDeleteModal = false" class="flex-1 py-2.5 rounded-full border border-border-light text-sm font-medium hover:bg-mint transition">Cancel</button>
+            <button @click="executeDelete" class="flex-1 py-2.5 rounded-full bg-error text-white text-sm font-medium hover:bg-[#c9302c] transition">Delete</button>
           </div>
         </div>
       </div>
@@ -119,7 +119,7 @@ async function executeDelete() {
   if (!deleteTargetId.value) return
   try {
     await recipeStore.deleteRecipe(deleteTargetId.value)
-    toast.show('Receita removida.')
+    toast.show('Recipe deleted.')
   } catch (e) {
     toast.show(e.message, 'error')
   }
@@ -130,7 +130,7 @@ async function executeDelete() {
 async function handleRate(recipeId, stars) {
   try {
     await recipeStore.rateRecipe(recipeId, stars)
-    toast.show('Avaliação registrada! ⭐')
+    toast.show('Rating saved! ⭐')
   } catch (e) {
     toast.show(e.message, 'error')
   }

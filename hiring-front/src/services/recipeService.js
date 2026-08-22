@@ -1,64 +1,64 @@
 const API_BASE = import.meta.env.VITE_API_BASE_URL || '/api/v1'
 
-// Imagens de comida por categoria (Unsplash)
+// Food images by category (Unsplash)
 const CATEGORY_IMAGES = {
-  'Doces': [
+  'Sweets': [
     'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=800&h=600&fit=crop',
     'https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=800&h=600&fit=crop',
     'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=800&h=600&fit=crop',
     'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=800&h=600&fit=crop',
     'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=800&h=600&fit=crop'
   ],
-  'Bolos': [
+  'Cakes': [
     'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800&h=600&fit=crop',
     'https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=800&h=600&fit=crop',
     'https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=800&h=600&fit=crop',
     'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&h=600&fit=crop'
   ],
-  'Saladas': [
+  'Salads': [
     'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&h=600&fit=crop',
     'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=800&h=600&fit=crop',
     'https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?w=800&h=600&fit=crop',
     'https://images.unsplash.com/photo-1607532941433-304659e8198a?w=800&h=600&fit=crop'
   ],
-  'Pratos Principais': [
+  'Main Dishes': [
     'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&h=600&fit=crop',
     'https://images.unsplash.com/photo-1563379926898-05f4575a45d8?w=800&h=600&fit=crop',
     'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&h=600&fit=crop',
     'https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=800&h=600&fit=crop',
     'https://images.unsplash.com/photo-1603360946369-dc9bb6258143?w=800&h=600&fit=crop'
   ],
-  'Pães': [
+  'Breads': [
     'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&h=600&fit=crop',
     'https://images.unsplash.com/photo-1574085733277-851d9d856a3a?w=800&h=600&fit=crop',
     'https://images.unsplash.com/photo-1568254183919-78a4f43a2877?w=800&h=600&fit=crop',
   ],
-  'Sobremesas': [
+  'Desserts': [
     'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=800&h=600&fit=crop',
     'https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=800&h=600&fit=crop',
     'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=800&h=600&fit=crop'
   ],
-  'Sopas': [
+  'Soups': [
     'https://images.unsplash.com/photo-1476718406336-bb5a9690ee2a?w=800&h=600&fit=crop',
     'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=800&h=600&fit=crop',
     'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=800&h=600&fit=crop'
   ],
-  'Massas': [
+  'Pasta': [
     'https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=800&h=600&fit=crop',
     'https://images.unsplash.com/photo-1476124369491-e7addf5db371?w=800&h=600&fit=crop',
     'https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=800&h=600&fit=crop'
   ],
-  'Carnes': [
+  'Meats': [
     'https://images.unsplash.com/photo-1588168333986-5078d3ae3976?w=800&h=600&fit=crop',
     'https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=800&h=600&fit=crop',
     'https://images.unsplash.com/photo-1544025162-d76694265947?w=800&h=600&fit=crop'
   ],
-  'Bebidas': [
+  'Beverages': [
     'https://images.unsplash.com/photo-1623065422902-30a2d299bbe4?w=800&h=600&fit=crop',
     'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=800&h=600&fit=crop',
     'https://images.unsplash.com/photo-1536935338788-846bb9981813?w=800&h=600&fit=crop'
   ],
-  'Vegetariano': [
+  'Vegetarian': [
     'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&h=600&fit=crop',
     'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=800&h=600&fit=crop',
     'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&h=600&fit=crop'
@@ -85,9 +85,9 @@ function getCoverImage(raw) {
 }
 
 const DIFFICULTY_MAP = {
-  easy: 'Fácil',
-  medium: 'Médio',
-  hard: 'Difícil'
+  easy: 'Easy',
+  medium: 'Medium',
+  hard: 'Hard'
 }
 
 function normalizeDifficultyValue(value) {
@@ -126,7 +126,7 @@ function mapRecipe(raw) {
     ingredients: raw.ingredients || [],
     steps: raw.instructions || [],
     authorId: raw.user_id,
-    authorName: raw.user?.name || 'Desconhecido',
+    authorName: raw.user?.name || 'Unknown',
     ratings: raw.ratings || [],
     isPublished: raw.is_published,
     createdAt: raw.created_at_formatted || raw.created_at,
@@ -160,7 +160,7 @@ async function apiFetch(path, options = {}) {
   })
   const data = await res.json().catch(() => null)
   if (!res.ok || data?.errors) {
-    const error = new Error(data?.message || `Erro ${res.status}`)
+    const error = new Error(data?.message || `Error ${res.status}`)
     error.fieldErrors = data?.errors || {}
     throw error
   }

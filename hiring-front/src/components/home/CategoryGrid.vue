@@ -5,9 +5,9 @@
         <div>
           <div class="flex items-center gap-3 mb-3">
             <div class="w-8 h-px bg-olive"></div>
-            <span class="text-sm text-sage uppercase tracking-widest font-medium">Explore</span>
+            <span class="text-sm text-sage uppercase tracking-widest font-medium">Browse</span>
           </div>
-          <h2 class="font-serif text-3xl md:text-4xl font-medium text-graphite">Categorias populares</h2>
+          <h2 class="font-serif text-3xl md:text-4xl font-medium text-graphite">Popular Categories</h2>
         </div>
         <div class="flex gap-2">
           <button class="w-10 h-10 rounded-full border border-border-light flex items-center justify-center hover:border-olive hover:text-olive transition text-sage">
@@ -26,14 +26,14 @@
           <div class="flex items-center justify-between mb-4">
             <div>
               <h3 class="font-semibold text-graphite group-hover:text-olive transition">{{ cat.name }}</h3>
-              <p class="text-xs text-sage mt-0.5">{{ cat.count }} receitas</p>
+              <p class="text-xs text-sage mt-0.5">{{ cat.count }} recipes</p>
             </div>
             <div class="w-14 h-14 rounded-full overflow-hidden flex-shrink-0">
               <img :src="cat.image" class="w-full h-full object-cover" :alt="cat.name">
             </div>
           </div>
           <button class="px-4 py-1.5 rounded-full border border-border-light text-xs font-medium text-sage hover:border-olive hover:text-olive transition">
-            Ver todas
+            View all
           </button>
         </div>
       </div>
@@ -48,7 +48,7 @@ const recipeStore = useRecipeStore()
 
 function selectCategory(name) {
   recipeStore.setCategory(name)
-  const el = document.getElementById('receitas')
+  const el = document.getElementById('recipes')
   if (el) el.scrollIntoView({ behavior: 'smooth' })
 }
 </script>

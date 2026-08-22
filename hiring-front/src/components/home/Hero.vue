@@ -6,28 +6,28 @@
         <div class="order-2 lg:order-1">
           <div class="flex items-center gap-3 mb-6">
             <div class="w-8 h-px bg-olive"></div>
-            <span class="text-sm text-sage uppercase tracking-widest font-medium">+10.000 receitas</span>
+            <span class="text-sm text-sage uppercase tracking-widest font-medium">+10,000 recipes</span>
           </div>
           <h1 class="font-serif text-5xl md:text-6xl font-medium leading-[1.1] tracking-tight mb-6 text-graphite">
-            As melhores receitas<br>para suas <span class="text-olive">refeições</span>
+            The best recipes<br>for your <span class="text-olive">meals</span>
           </h1>
           <p class="text-sage text-lg leading-relaxed mb-8 max-w-lg">
-            Descubra, cozinhe e compartilhe pratos incríveis — avaliados por quem realmente cozinha.
+            Discover, cook and share amazing dishes — rated by people who actually cook.
           </p>
           <div class="flex flex-col sm:flex-row gap-4">
-            <RouterLink v-if="userStore.isLoggedIn" to="/receitas/nova"
+            <RouterLink v-if="userStore.isLoggedIn" to="/recipes/new"
               class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-olive text-white font-medium hover:bg-olive-dark hover:scale-[1.03] active:scale-[0.98] transition-all shadow-sm">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
-              Criar Receita
+              Create Recipe
             </RouterLink>
             <button v-else @click="userStore.openLogin()"
               class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-olive text-white font-medium hover:bg-olive-dark hover:scale-[1.03] active:scale-[0.98] transition-all shadow-sm">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" x2="3" y1="12" y2="12"/></svg>
-              Começar agora
+              Get started
             </button>
-            <a href="#receitas"
+            <a href="#recipes"
               class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full border border-border-light text-graphite font-medium hover:border-olive hover:text-olive transition">
-              Explorar receitas
+              Browse recipes
             </a>
           </div>
         </div>
@@ -40,13 +40,13 @@
           </div>
           <div class="relative w-72 h-72 md:w-96 md:h-96 rounded-full overflow-hidden shadow-2xl animate-float">
             <img src="https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=800&h=800&fit=crop"
-              class="w-full h-full object-cover" alt="Prato destaque">
+              class="w-full h-full object-cover" alt="Featured dish">
           </div>
           <div class="absolute -bottom-4 -right-4 md:bottom-4 md:right-0 bg-white rounded-2xl px-4 py-3 shadow-lg flex items-center gap-2">
             <span class="text-gold text-lg">⭐</span>
             <div>
               <div class="text-sm font-semibold text-graphite">4.8</div>
-              <div class="text-xs text-sage">média de avaliação</div>
+              <div class="text-xs text-sage">average rating</div>
             </div>
           </div>
         </div>

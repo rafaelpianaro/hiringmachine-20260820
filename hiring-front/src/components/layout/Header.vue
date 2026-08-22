@@ -8,8 +8,8 @@
 
       <nav class="items-center hidden gap-8 text-sm font-medium md:flex text-sage">
         <!-- <a href="/#categorias" class="transition hover:text-olive">Categorias</a> -->
-        <a href="/#receitas" class="transition hover:text-olive">Receitas</a>
-        <a href="#" class="transition hover:text-olive">Sobre</a>
+        <a href="/#recipes" class="transition hover:text-olive">Recipes</a>
+        <a href="#" class="transition hover:text-olive">About</a>
         <!-- <a href="#" class="transition hover:text-olive">Contato</a> -->
       </nav>
 
@@ -21,11 +21,11 @@
         <template v-if="!userStore.isLoggedIn">
           <button @click="userStore.openLogin()"
             class="hidden px-5 py-2 text-sm font-medium transition border rounded-full sm:inline-flex border-border-light hover:border-olive hover:text-olive">
-            Entrar
+            Sign In
           </button>
           <button @click="userStore.openLogin()"
             class="px-5 py-2 rounded-full bg-olive text-white text-sm font-medium hover:bg-olive-dark hover:scale-[1.03] active:scale-[0.98] transition-all">
-            Criar Receita
+            Create Recipe
           </button>
         </template>
 
@@ -37,18 +37,18 @@
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
             </button>
             <div class="absolute right-0 invisible w-48 mt-2 overflow-hidden transition-all duration-200 bg-white border shadow-lg opacity-0 top-full rounded-2xl border-border-light group-hover:opacity-100 group-hover:visible">
-              <RouterLink to="/minhas-receitas" class="flex items-center w-full gap-2 px-4 py-3 text-sm text-left transition hover:bg-mint text-graphite">
+              <RouterLink to="/my-recipes" class="flex items-center w-full gap-2 px-4 py-3 text-sm text-left transition hover:bg-mint text-graphite">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/></svg>
-                Minhas Receitas
+                My Recipes
               </RouterLink>
-              <RouterLink to="/receitas/nova" class="flex items-center w-full gap-2 px-4 py-3 text-sm text-left transition hover:bg-mint text-graphite">
+              <RouterLink to="/recipes/new" class="flex items-center w-full gap-2 px-4 py-3 text-sm text-left transition hover:bg-mint text-graphite">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
-                Nova Receita
+                New Recipe
               </RouterLink>
               <div class="h-px mx-2 bg-border-light"></div>
               <button @click="handleLogout" class="flex items-center w-full gap-2 px-4 py-3 text-sm text-left transition hover:bg-mint text-error">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
-                Sair
+                Sign Out
               </button>
             </div>
           </div>
@@ -75,13 +75,13 @@ onMounted(() => {
 
 function handleLogout() {
   userStore.logout()
-  toast.show('Até a próxima receita! 👋')
+  toast.show('See you next time! 👋')
   router.push('/')
 }
 
 function scrollToRecipes() {
-  const el = document.getElementById('receitas')
+  const el = document.getElementById('recipes')
   if (el) el.scrollIntoView({ behavior: 'smooth' })
-  else router.push('/#receitas')
+  else router.push('/#recipes')
 }
 </script>

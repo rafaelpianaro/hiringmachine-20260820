@@ -6,7 +6,7 @@
     <div class="max-w-5xl mx-auto px-6">
       <button @click="$router.push('/')" class="mb-6 flex items-center gap-2 text-sm text-sage hover:text-olive transition">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
-        Voltar para receitas
+        Back to recipes
       </button>
       <div class="relative rounded-[2rem] overflow-hidden mb-8 aspect-[21/9]">
         <img :src="recipe.coverImage" class="w-full h-full object-cover" :alt="recipe.title">
@@ -30,21 +30,21 @@
         <div class="h-8 w-px bg-border-light hidden sm:block"></div>
         <div class="flex items-center gap-4 text-sm text-sage">
           <span class="flex items-center gap-1.5"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>{{ recipe.prepTimeMinutes }} min</span>
-          <span class="flex items-center gap-1.5"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"/><path d="M5 21V7l8-4 8 4v14"/><path d="M10 21v-6h4v6"/></svg>{{ recipe.servings }} porções</span>
+          <span class="flex items-center gap-1.5"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"/><path d="M5 21V7l8-4 8 4v14"/><path d="M10 21v-6h4v6"/></svg>          {{ recipe.servings }} servings</span>
           <span class="flex items-center gap-1.5"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>{{ recipe.difficulty }}</span>
         </div>
         <div class="ml-auto flex gap-2" v-if="isOwner">
-          <button @click="$router.push(`/receitas/${recipe.id}/editar`)" class="px-4 py-2 rounded-full border border-border-light text-sm font-medium hover:border-olive hover:text-olive transition flex items-center gap-2">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>Editar
+          <button @click="$router.push(`/recipes/${recipe.id}/edit`)" class="px-4 py-2 rounded-full border border-border-light text-sm font-medium hover:border-olive hover:text-olive transition flex items-center gap-2">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>            Edit
           </button>
           <button @click="confirmDelete" class="px-4 py-2 rounded-full border border-border-light text-sm font-medium text-error hover:bg-error hover:text-white hover:border-error transition flex items-center gap-2">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>Excluir
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>            Delete
           </button>
         </div>
       </div>
       <div class="grid md:grid-cols-3 gap-10">
         <div class="md:col-span-1">
-          <h3 class="font-serif text-xl font-semibold mb-4 text-graphite">Ingredientes</h3>
+          <h3 class="font-serif text-xl font-semibold mb-4 text-graphite">Ingredients</h3>
           <ul class="space-y-3">
             <li v-for="(ing, i) in recipe.ingredients" :key="i" class="flex items-start gap-3 group">
               <div class="w-5 h-5 rounded border-2 border-border-light flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:border-olive transition cursor-pointer" @click="toggleCheck(i)" :class="checkedIngredients.has(i) ? 'bg-olive border-olive' : ''">
@@ -55,7 +55,7 @@
           </ul>
         </div>
         <div class="md:col-span-2">
-          <h3 class="font-serif text-xl font-semibold mb-4 text-graphite">Modo de preparo</h3>
+          <h3 class="font-serif text-xl font-semibold mb-4 text-graphite">Instructions</h3>
           <div class="space-y-6">
             <div v-for="(step, i) in recipe.steps" :key="i" class="flex gap-4">
               <div class="w-8 h-8 rounded-full bg-mint text-olive flex items-center justify-center text-sm font-bold flex-shrink-0">{{ i + 1 }}</div>
@@ -63,24 +63,24 @@
             </div>
           </div>
           <div class="mt-12 pt-8 border-t border-border-light">
-            <h3 class="font-serif text-xl font-semibold mb-4 text-graphite">Avaliações</h3>
+            <h3 class="font-serif text-xl font-semibold mb-4 text-graphite">Ratings</h3>
             <div class="bg-off-white rounded-2xl p-6 border border-border-light">
               <div class="flex items-center gap-4 mb-4">
                 <div class="text-4xl font-serif font-bold text-graphite">{{ averageRating }}</div>
                 <div>
                   <StarRating :average="Number(averageRating)" :readonly="true" />
-                  <div class="text-xs text-sage mt-1">{{ recipe.ratings.length }} avaliações</div>
+                  <div class="text-xs text-sage mt-1">{{ recipe.ratings.length }} ratings</div>
                 </div>
               </div>
               <div v-if="userStore.isLoggedIn && canRate" class="border-t border-border-light pt-4">
-                <p class="text-sm text-sage mb-3">Avalie esta receita (1 a 3 estrelas):</p>
+                <p class="text-sm text-sage mb-3">Rate this recipe (1 to 3 stars):</p>
                 <StarRating v-model="userRating" :readonly="false" @rate="handleRate" />
               </div>
               <div v-else-if="!userStore.isLoggedIn" class="border-t border-border-light pt-4">
-                <p class="text-sm text-sage"><button @click="userStore.openLogin()" class="text-olive font-medium hover:underline">Entre</button> para avaliar esta receita.</p>
+                <p class="text-sm text-sage"><button @click="userStore.openLogin()" class="text-olive font-medium hover:underline">Sign in</button> to rate this recipe.</p>
               </div>
               <div v-else class="border-t border-border-light pt-4">
-                <p class="text-sm text-sage">Você não pode avaliar sua própria receita.</p>
+                <p class="text-sm text-sage">You cannot rate your own recipe.</p>
               </div>
             </div>
           </div>
@@ -96,11 +96,11 @@
           <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-error/10 flex items-center justify-center text-error">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
           </div>
-          <h3 class="font-serif text-xl font-semibold mb-2 text-graphite">Excluir receita?</h3>
-          <p class="text-sage text-sm mb-6">Esta ação não pode ser desfeita. Tem certeza?</p>
+          <h3 class="font-serif text-xl font-semibold mb-2 text-graphite">Delete recipe?</h3>
+          <p class="text-sage text-sm mb-6">This action cannot be undone. Are you sure?</p>
           <div class="flex gap-3">
-            <button @click="showDeleteModal = false" class="flex-1 py-2.5 rounded-full border border-border-light text-sm font-medium hover:bg-mint transition">Cancelar</button>
-            <button @click="executeDelete" class="flex-1 py-2.5 rounded-full bg-error text-white text-sm font-medium hover:bg-[#c9302c] transition">Excluir</button>
+            <button @click="showDeleteModal = false" class="flex-1 py-2.5 rounded-full border border-border-light text-sm font-medium hover:bg-mint transition">Cancel</button>
+            <button @click="executeDelete" class="flex-1 py-2.5 rounded-full bg-error text-white text-sm font-medium hover:bg-[#c9302c] transition">Delete</button>
           </div>
         </div>
       </div>
@@ -129,7 +129,7 @@ const checkedIngredients = ref(new Set())
 const userRating = ref(0)
 
 const author = computed(() => ({
-  name: recipe.value?.authorName || 'Desconhecido',
+  name: recipe.value?.authorName || 'Unknown',
   avatarUrl: recipe.value?.authorAvatar || ''
 }))
 const averageRating = computed(() => {
@@ -163,7 +163,7 @@ async function handleRate(stars) {
   try {
     await recipeStore.rateRecipe(recipe.value.id, stars)
     recipe.value = await recipeStore.getRecipe(route.params.id)
-    toast.show('Avaliação registrada! ⭐')
+    toast.show('Rating saved! ⭐')
   } catch (e) {
     toast.show(e.message, 'error')
   }
@@ -174,7 +174,7 @@ function confirmDelete() { showDeleteModal.value = true }
 async function executeDelete() {
   try {
     await recipeStore.deleteRecipe(recipe.value.id)
-    toast.show('Receita removida.')
+    toast.show('Recipe deleted.')
     router.push('/')
   } catch (e) {
     toast.show(e.message, 'error')
