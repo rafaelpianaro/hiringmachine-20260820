@@ -37,16 +37,16 @@ class UpdateProfileRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.string' => 'O nome deve ser um texto.',
-            'name.max' => 'O nome não pode ter mais de 255 caracteres.',
-            'phone.string' => 'O telefone deve ser um texto.',
-            'phone.max' => 'O telefone não pode ter mais de 20 caracteres.',
-            'company.string' => 'A empresa deve ser um texto.',
-            'company.max' => 'A empresa não pode ter mais de 255 caracteres.',
-            'position.string' => 'O cargo deve ser um texto.',
-            'position.max' => 'O cargo não pode ter mais de 255 caracteres.',
-            'avatar.string' => 'O avatar deve ser um texto.',
-            'avatar.max' => 'O avatar não pode ter mais de 255 caracteres.',
+            'name.string' => 'The name must be a string.',
+            'name.max' => 'The name must not exceed 255 characters.',
+            'phone.string' => 'The phone must be a string.',
+            'phone.max' => 'The phone must not exceed 20 characters.',
+            'company.string' => 'The company must be a string.',
+            'company.max' => 'The company must not exceed 255 characters.',
+            'position.string' => 'The position must be a string.',
+            'position.max' => 'The position must not exceed 255 characters.',
+            'avatar.string' => 'The avatar must be a string.',
+            'avatar.max' => 'The avatar must not exceed 255 characters.',
         ];
     }
 }

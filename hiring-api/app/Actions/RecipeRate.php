@@ -16,7 +16,7 @@ final readonly class RecipeRate
     public function handle(Recipe $recipe, int $userId, int $stars): array
     {
         if ($recipe->user_id === $userId) {
-            throw new \RuntimeException('Você não pode avaliar sua própria receita.');
+            throw new \RuntimeException('You cannot rate your own recipe.');
         }
 
         return DB::transaction(function () use ($recipe, $userId, $stars): array {

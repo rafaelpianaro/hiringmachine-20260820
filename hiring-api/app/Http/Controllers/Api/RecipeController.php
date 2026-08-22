@@ -51,7 +51,7 @@ class RecipeController extends Controller
 
         return $this->successResponse(
             $recipe->load('user:id,name'),
-            'Receita criada com sucesso',
+            'Recipe created successfully',
             201
         );
     }
@@ -75,7 +75,7 @@ class RecipeController extends Controller
     {
         // Check if user owns the recipe
         if ($recipe->user_id !== Auth::id()) {
-            return $this->forbiddenResponse('Você não tem permissão para editar esta receita.');
+            return $this->forbiddenResponse('You do not have permission to edit this recipe.');
         }
 
         $request->validate([
@@ -98,7 +98,7 @@ class RecipeController extends Controller
 
         return $this->successResponse(
             $recipe->fresh()->load('user:id,name'),
-            'Receita atualizada com sucesso.'
+            'Recipe updated successfully.'
         );
     }
 
@@ -109,12 +109,12 @@ class RecipeController extends Controller
     {
         // Check if user owns the recipe
         if ($recipe->user_id !== Auth::id()) {
-            return $this->forbiddenResponse('Você não tem permissão para excluir esta receita.');
+            return $this->forbiddenResponse('You do not have permission to delete this recipe.');
         }
 
         $recipe->delete();
 
-        return $this->successResponse(null, 'Receita excluída com sucesso.');
+        return $this->successResponse(null, 'Recipe deleted successfully.');
     }
 
     /**
@@ -162,6 +162,6 @@ class RecipeController extends Controller
             return $this->errorResponse($exception->getMessage(), 422);
         }
 
-        return $this->successResponse($payload, 'Avaliação registrada com sucesso', 201);
+        return $this->successResponse($payload,            'Rating saved successfully', 201);
     }
 }

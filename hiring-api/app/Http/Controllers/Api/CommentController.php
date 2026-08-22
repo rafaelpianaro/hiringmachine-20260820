@@ -44,7 +44,7 @@ class CommentController extends Controller
 
         return $this->successResponse(
             $comment->load('user:id,name'),
-            'Comentário adicionado com sucesso',
+            'Comment added successfully',
             201
         );
     }
@@ -56,7 +56,7 @@ class CommentController extends Controller
     {
         // Check if user owns the comment
         if ($comment->user_id !== Auth::id()) {
-            return $this->forbiddenResponse('Você não tem permissão para editar este comentário.');
+            return $this->forbiddenResponse('You do not have permission to edit this comment.');
         }
 
         $request->validate([
@@ -68,7 +68,7 @@ class CommentController extends Controller
 
         return $this->successResponse(
             $comment->fresh()->load('user:id,name'),
-            'Comentário atualizado com sucesso'
+            'Comment updated successfully'
         );
     }
 
@@ -79,11 +79,11 @@ class CommentController extends Controller
     {
         // Check if user owns the comment or is admin
         if ($comment->user_id !== Auth::id() && Auth::user()->role !== 'admin') {
-            return $this->forbiddenResponse('Você não tem permissão para excluir este comentário.');
+            return $this->forbiddenResponse('You do not have permission to delete this comment.');
         }
 
         $comment->delete();
 
-        return $this->successResponse(null, 'Comentário excluído com sucesso');
+        return $this->successResponse(null, 'Comment deleted successfully');
     }
 }

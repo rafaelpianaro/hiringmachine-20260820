@@ -130,7 +130,7 @@ trait ApiResponser
      * @param string $message
      * @return JsonResponse
      */
-    protected function notFoundResponse(string $message = 'Recurso não encontrado'): JsonResponse
+    protected function notFoundResponse(string $message = 'Resource not found'): JsonResponse
     {
         return response()->json([
             'status' => 'error',

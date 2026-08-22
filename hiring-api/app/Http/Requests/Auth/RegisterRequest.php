@@ -36,16 +36,16 @@ class RegisterRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required' => 'O campo nome é obrigatório.',
-            'name.string' => 'O nome deve ser um texto.',
-            'name.max' => 'O nome não pode ter mais de 255 caracteres.',
-            'email.required' => 'O campo e-mail é obrigatório.',
-            'email.email' => 'Por favor, informe um e-mail válido.',
-            'email.unique' => 'Este e-mail já está cadastrado.',
-            'password.required' => 'O campo senha é obrigatório.',
-            'password.min' => 'A senha deve ter pelo menos 8 caracteres.',
-            'password.confirmed' => 'A confirmação da senha não confere.',
-            'role.in' => 'O perfil informado é inválido.',
+            'name.required' => 'The name field is required.',
+            'name.string' => 'The name must be a string.',
+            'name.max' => 'The name must not exceed 255 characters.',
+            'email.required' => 'The email field is required.',
+            'email.email' => 'Please provide a valid email address.',
+            'email.unique' => 'This email address is already registered.',
+            'password.required' => 'The password field is required.',
+            'password.min' => 'The password must be at least 8 characters.',
+            'password.confirmed' => 'The password confirmation does not match.',
+            'role.in' => 'The selected role is invalid.',
         ];
     }
 }

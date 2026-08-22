@@ -35,13 +35,13 @@ class AuthController extends Controller
 
         if (! $user) {
             throw ValidationException::withMessages([
-                'email' => ['As credenciais fornecidas estão incorretas.'],
+                'email' => ['The provided credentials are incorrect.'],
             ]);
         }
 
         if (! $user->is_active) {
             throw ValidationException::withMessages([
-                'email' => ['Sua conta está desativada. Entre em contato com o suporte.'],
+                'email' => ['Your account has been deactivated. Please contact support.'],
             ]);
         }
 
@@ -70,7 +70,7 @@ class AuthController extends Controller
         Auth::guard('api')->logout();
 
         return response()->json([
-            'message' => 'Logout realizado com sucesso.',
+            'message' => 'Logged out successfully.',
         ]);
     }
 
@@ -106,7 +106,7 @@ class AuthController extends Controller
         $user = (new UserUpdateProfile)->handle(Auth::user(), $request->validated());
 
         return response()->json([
-            'message' => 'Perfil atualizado com sucesso.',
+            'message' => 'Profile updated successfully.',
             'data' => $user,
         ]);
     }
@@ -121,7 +121,7 @@ class AuthController extends Controller
         (new UserChangePassword)->handle($user, $request->current_password, $request->password);
 
         return response()->json([
-            'message' => 'Senha alterada com sucesso.',
+            'message' => 'Password changed successfully.',
         ]);
     }
 
@@ -135,7 +135,7 @@ class AuthController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'Se o email existir, um link de redefinição foi enviado.',
+            'message' => 'If the email exists, a reset link has been sent.',
         ]);
     }
 
@@ -151,7 +151,7 @@ class AuthController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'Senha redefinida com sucesso.',
+            'message' => 'Password reset successfully.',
         ]);
     }
 
@@ -162,7 +162,7 @@ class AuthController extends Controller
     {
         return response()->json([
             'status' => 'success',
-            'message' => 'Autenticação realizada com sucesso.',
+            'message' => 'Authentication successful.',
             'data' => [
                 'access_token' => $token,
                 'token_type' => 'bearer',

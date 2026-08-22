@@ -23,28 +23,28 @@ class CheckRole
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Token inválido ou expirado.',
+                'message' => 'Invalid or expired token.',
             ], 401);
         }
 
         if (!$user) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Usuário não encontrado.',
+                'message' => 'User not found.',
             ], 401);
         }
 
         if (!$user->is_active) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Conta desativada.',
+                'message' => 'Account deactivated.',
             ], 403);
         }
 
         if (!empty($roles) && !in_array($user->role, $roles)) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Você não tem permissão para acessar este recurso.',
+                'message' => 'You do not have permission to access this resource.',
             ], 403);
         }
 

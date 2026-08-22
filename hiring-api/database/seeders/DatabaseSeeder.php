@@ -32,20 +32,20 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->createUser([
-            'name' => 'Maria Clara',
-            'email' => 'maria.clara@culinaria.com',
+            'name' => 'Laura Sains',
+            'email' => 'laura.sains@cuisine.com',
             'password' => Hash::make('password'),
             'role' => 'user',
-            'company' => 'Casa da Maria',
-            'position' => 'Chef de Cozinha',
+            'company' => 'Home Sains',
+            'position' => 'Cheff',
             'phone' => '+55 11 99999-1111',
             'email_verified_at' => now(),
             'is_active' => true,
         ]);
 
         $this->createUser([
-            'name' => 'Ana Souza',
-            'email' => 'ana.souza@email.com',
+            'name' => 'Annia Bottas',
+            'email' => 'annia.bottas@email.com',
             'password' => Hash::make('password'),
             'role' => 'user',
             'phone' => '+55 11 99999-3333',
