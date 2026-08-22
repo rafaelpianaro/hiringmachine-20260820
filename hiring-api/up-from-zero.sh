@@ -1,16 +1,17 @@
 #!/usr/bin/env bash
 #
-# up-from-zero.sh — Sobe o projeto do zero com Docker.
+# up-from-zero.sh — Spins up the project from scratch using Docker.
 #
-# Faz tudo que é necessário para subir do zero:
-#   1. Garante que o .env existe (cria a partir do .env.example se faltar);
-#   2. Remove containers antigos com nomes fixos do compose — inclusive os de
-#      projetos anteriores (ex.: quando o diretório tinha outro nome), que o
-#      `docker compose down` do projeto atual não alcança;
-#   3. Derruba o projeto atual com os volumes (banco, redis, mailpit e
-#      playwright zerados) e remove volumes órfãos de nomes antigos;
-#   4. Constrói a imagem e sobe todos os serviços com as configurações do .env;
-#   5. Aguarda o servidor da app ficar pronto e mostra as URLs.
+# Performs all necessary steps to spin up from scratch:
+#   1. Ensures the .env file exists (creates it from .env.example if missing);
+#   2. Removes old containers with fixed Compose names—including those from
+#      previous projects (e.g., when the directory had a different name) that
+#      the current project's `docker compose down` wouldn't catch;
+#   3. Tears down the current project, including volumes (resetting the database,
+#      Redis, Mailpit, and Playwright), and removes orphaned volumes from
+#      old names;
+#   4. Builds the image and starts all services using the .env configuration;
+#   5. Waits for the app server to be ready and displays the URLs.
 #
 # Uso:
 #   ./up-from-zero.sh
@@ -21,7 +22,7 @@ cd "$(dirname "$0")"
 
 # 0. Docker disponível?
 if ! command -v docker >/dev/null 2>&1; then
-    echo "ERRO: docker não encontrado no PATH." >&2
+    echo "ERROR: docker not found in PATH." >&2
     exit 1
 fi
 
@@ -29,7 +30,7 @@ fi
 if [ ! -f .env ]; then
     cp .env.example .env
     echo "==> .env build from .env.example"
-    echo "    Revise as portas (APP_PORT, DB_PORT, REDIS_PORT, etc.) antes de subir."
+    echo "    Review the ports (APP_PORT, DB_PORT, REDIS_PORT, etc.) before deploying."
 fi
 
 # 1.1. Prefixo dos nomes de containers e da imagem (definido no .env — derive-o do APP_NAME:
@@ -38,9 +39,9 @@ APP_CONTAINER_PREFIX="$(grep -E '^APP_CONTAINER_PREFIX=' .env | head -n1 | cut -
 APP_CONTAINER_PREFIX="${APP_CONTAINER_PREFIX:-starter-kit-inertia-react}"
 APP_CONTAINER="${APP_CONTAINER_PREFIX}-app"
 
-# 2. Remove containers antigos com nomes fixos do compose — podem ser de um
-#    projeto anterior (ex.: starter-kit-inertia-react-20260808) que o
-#    `docker compose down` do projeto atual não alcança.
+# 2. Remove old containers with fixed names from Compose — they might belong to a
+#    previous project that the
+#    `docker compose down` command of the current project doesn't reach.
 CONTAINERS=(
     "${APP_CONTAINER_PREFIX}-app"
     "${APP_CONTAINER_PREFIX}-pgsql"

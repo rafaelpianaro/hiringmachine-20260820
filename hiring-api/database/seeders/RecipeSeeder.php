@@ -13,7 +13,7 @@ class RecipeSeeder extends Seeder
      */
     public function run(): void
     {
-        $chef = User::where('email', 'Laura.sains@cuisine.com')->first() ?? User::query()->first();
+        $chef = User::where('email', 'laura.sains@cuisine.com')->first() ?? User::query()->first();
 
         if (!$chef) {
             return;
